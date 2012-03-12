@@ -6,16 +6,34 @@
  */
 
 using namespace std;
-#include  <sys/types.h>
-#include <sys/socket.h>
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ServerSocket.h>
+#include "node.h"
 
+#define STARTPORT 6000
+#define CHANNELRANGE 10
 
-#DEFINE STARTPORT 6000
-#DEFINE CHANNELRANGE 10
+#define ENDIP "127.0.0.1"
 
-#DEFINE ENDIP "127.0.0.1"
+int main(int argc, char **argv){
 
-  
+	try{
+		ServerSocket server(STARTPORT);
+		
+		while (true){
+			ServerSocket new_sock;
+			server.accept (new_sock);
+			try{
+				while(true){
+					new_sock >> data;
+					new_sock << data;
+				}
+			} catch (SocketException& e){}
+		}
+	} catch (SocketException& e){
+		cout << "Exception was caught:" <<e.description() << "\nExit";
+	}
+	return 0; 
+}

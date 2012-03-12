@@ -1,0 +1,16 @@
+- Create Listening socket
+- Create connection socket
+- Test duplex connection
+
+- Abstract the connection part
+- Create sharing part
+- Create recieveing part
+- Test the sharing duplex
+
+- Bandwidth monitoring
+- Resources Splitting according to user input
+
+- Multiple Connections at once
+
+
+
