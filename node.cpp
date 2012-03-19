@@ -23,29 +23,24 @@ using namespace std;
 
 // Internal Functions
 void closeAllConnections(int SocketIDs[MAXNUMMAVS]);
-void serverInit(struct sockaddr_in serv);
+int serverInit(struct sockaddr_in serv, int mySocket);
 void closeConnection(int SocketID);
 
 int main(int argc, char **argv){
 
-	char msg[] = "Connecting to Localhost";
+	char msg[] = "\n\nConnecting to Localhost\n\n";
 	
 	struct sockaddr_in dest; 							// Remote machine details
 	struct sockaddr_in serv; 							// Server Details
-	int mysocket;										// Incoming connection Socket
+	int mySocket=0;										// Incoming connection Socket
 	unsigned int socketSize = sizeof(struct sockaddr_in);	
 	
 	// Setting up server details
-	serverInit(serv);
-
-	mysocket = socket(AF_INET, SOCK_STREAM, 0);
-	
-	//Bind server to socket
-	bind(mysocket, (struct sockaddr *)&serv, sizeof(struct sockaddr));
+	mySocket = serverInit(serv, mySocket);
 	
 	// Start server listening
-	listen(mysocket,1);
-	int consocket = accept(mysocket, (struct sockaddr *)&dest, &socketSize);
+	listen(mySocket,5);
+	int consocket = accept(mySocket, (struct sockaddr *)&dest, &socketSize);
 
 	printf("\n\n\nconsocket %d\n\n\n",consocket);
 	
@@ -55,17 +50,14 @@ int main(int argc, char **argv){
 		send(consocket, msg, strlen(msg), 0);
 	}
 	
-	close(consocket);
-	close(mysocket);
+	closeConnection(consocket);
+	closeConnection(mySocket);
 	return EXIT_SUCCESS;
-
-	return 0; 
 }
 	
 void closeConnection(int SocketID){
 	close(SocketID);
 }
-	
 	
 void closeAllConnections(int SocketIDs[MAXNUMMAVS]){
 	int index =0;
@@ -75,7 +67,7 @@ void closeAllConnections(int SocketIDs[MAXNUMMAVS]){
 	}
 }
 
-void serverInit (struct sockaddr_in serv){
+int serverInit (struct sockaddr_in serv, int mySocket){
 	memset (&serv , 0, sizeof(serv));
 	serv.sin_family = AF_INET;							// set type of IPV4 or IPV6
 	serv.sin_addr.s_addr = inet_addr(MYIP);		// set ip address see below 
@@ -84,5 +76,11 @@ void serverInit (struct sockaddr_in serv){
 	 * 	  INADDR_ANV - for any interface
 	 *
 	 */
-	 serv.sin_port = htons(BASEPORT);	
+	serv.sin_port = htons(BASEPORT);
+	 
+	mySocket = socket(AF_INET, SOCK_STREAM, 0);			// setup socket
+	
+	//Bind server to mySocket
+	bind(mySocket, (struct sockaddr *)&serv, sizeof(struct sockaddr));
+	return mySocket;
 }
