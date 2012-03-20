@@ -20,6 +20,7 @@ using namespace std;
 
 #define MYIP "127.0.0.1"
 #define MAXNUMMAVS 15
+#define TERM "\\EnD\\"
 
 // Internal Functions
 void closeAllConnections(int SocketIDs[MAXNUMMAVS]);
@@ -28,7 +29,12 @@ void closeConnection(int SocketID);
 
 int main(int argc, char **argv){
 
-	char msg[] = "\n\nConnecting to Localhost\n\n";
+	char msg[]= "Connecting to Localhost";
+	
+	char msg[strlen(amsg)+5];
+	strcpy(msg,amsg);
+	strcat(msg,TERM);
+	
 	
 	struct sockaddr_in dest; 							// Remote machine details
 	struct sockaddr_in serv; 							// Server Details
@@ -39,14 +45,15 @@ int main(int argc, char **argv){
 	mySocket = serverInit(serv, mySocket);
 	
 	// Start server listening
-	listen(mySocket,5);
+	listen(mySocket,1);
 	int consocket = accept(mySocket, (struct sockaddr *)&dest, &socketSize);
-
-	printf("\n\n\nconsocket %d\n\n\n",consocket);
-	
+		
 	while (consocket)
 	{
-		printf("Incoming connection from %s - sending welcome\n", inet_ntoa(dest.sin_addr));
+		printf("Incoming connection from %s - sending msg = %s\n", inet_ntoa(dest.sin_addr), msg);
+		printf("consocket %d\n",consocket);
+			printf("msg[] - %s\n",msg);
+
 		send(consocket, msg, strlen(msg), 0);
 	}
 	
@@ -73,7 +80,7 @@ int serverInit (struct sockaddr_in serv, int mySocket){
 	serv.sin_addr.s_addr = inet_addr(MYIP);		// set ip address see below 
 	/*
 	 *    inet_addr("XXX.XXX.XXX.XXX") - for actual address
-	 * 	  INADDR_ANV - for any interface
+	 * 	  INADDR_ANY - for any interface
 	 *
 	 */
 	serv.sin_port = htons(BASEPORT);
