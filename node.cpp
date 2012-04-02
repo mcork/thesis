@@ -29,34 +29,35 @@ void closeConnection(int SocketID);
 
 int main(int argc, char **argv){
 
-	char msg[]= "Connecting to Localhost";
-	
-	char msg[strlen(amsg)+5];
-	strcpy(msg,amsg);
-	strcat(msg,TERM);
+	char msg[]= "Connecting to Localhost\\EnD\\";
 	
 	
 	struct sockaddr_in dest; 							// Remote machine details
 	struct sockaddr_in serv; 							// Server Details
 	int mySocket=0;										// Incoming connection Socket
 	unsigned int socketSize = sizeof(struct sockaddr_in);	
-	
-	// Setting up server details
-	mySocket = serverInit(serv, mySocket);
-	
-	// Start server listening
-	listen(mySocket,1);
-	int consocket = accept(mySocket, (struct sockaddr *)&dest, &socketSize);
+	int consocket=0, num=0;									// established connection socket
+	while(1)
+	{	
+		// Setting up server details
+		mySocket = serverInit(serv, mySocket+num);
 		
-	while (consocket)
-	{
-		printf("Incoming connection from %s - sending msg = %s\n", inet_ntoa(dest.sin_addr), msg);
-		printf("consocket %d\n",consocket);
+		// Start server listening
+		listen(mySocket+num,2);
+	
+		consocket = accept(mySocket+num,(struct sockaddr *)&dest, &socketSize);
+
+		while (consocket)
+		{
+			printf("Incoming connection from %s - sending msg = %s\n", inet_ntoa(dest.sin_addr), msg);
+			printf("consocket %d\n",consocket);
+			printf("mySocket %d\n",mySocket);
 			printf("msg[] - %s\n",msg);
 
-		send(consocket, msg, strlen(msg), 0);
+			send(consocket, msg, strlen(msg), 0);
+		}
+		num++;
 	}
-	
 	closeConnection(consocket);
 	closeConnection(mySocket);
 	return EXIT_SUCCESS;
