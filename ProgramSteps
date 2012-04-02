@@ -1,3 +1,9 @@
+Create a link with the current server/client model for shared memory interaction.
+shared memory -> server -> network -> client -> shared memory
+
+*** visual checking and diff to ensure that message is the same ***
+
+
 - Create Listening socket
 - Create connection socket
 - Test duplex connection

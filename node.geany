@@ -17,7 +17,10 @@ long_line_column=72
 
 [files]
 current_page=0
-FILE_NAME_0=0;None;0;16;1;1;0;/home/matt/Desktop/thesis/node.geany;0;4
+FILE_NAME_0=994;C++;0;16;1;1;0;/home/matt/Desktop/thesis/node.cpp;0;4
+FILE_NAME_1=0;C;0;16;1;1;0;/home/matt/Desktop/thesis/node.h;0;4
+FILE_NAME_2=0;None;0;16;1;1;0;/home/matt/Desktop/thesis/ProgramSteps;0;4
+FILE_NAME_3=376;C;0;16;1;1;0;/home/matt/Desktop/thesis/tcpClient.c;0;4
 
 [build-menu]
 C++FT_00_LB=_Compile
