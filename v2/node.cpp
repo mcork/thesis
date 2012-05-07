@@ -1,19 +1,19 @@
 /*
  * The aim of this node
  *
- * 
+ *
  * Created by: Matthew Cork (27-4-12)
- * 
+ *
  * Last Modified by: Matthew Cork (6-5-12)
- * 
+ *
  * Version 1.0
- * 
+ *
  */
- 
+
 #define IP "127.0.0.1"
 #define PORT "6000"
 #define NUMCON 1
- 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
@@ -75,13 +75,16 @@
 		if (sockFd == -1) {
 			perror("accept");
 			continue;
-        }
+	        }
 		inet_ntop(theirAddr.ss_family,get_in_addr((struct sockaddr *)&theirAddr),connectedIP, sizeof connectedIP);
-        printf("server: got connection from %s\n", connectedIP);
-		
-		//should do something more
+        	printf("server: got connection from %s\n", connectedIP);
+		// check to see if incoming message first
+
+		// check to see if shared memory has something to send
+
+
 	}
-	
+
 	// shouldn't ever reach here but just in case free up the relevant memory
 	freeaddrinfo(servinfo);	// free memory 
 	return 0;
