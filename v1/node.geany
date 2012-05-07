@@ -1,0 +1,32 @@
+
+[indentation]
+indent_width=4
+indent_type=1
+indent_hard_tab_width=8
+detect_indent=false
+indent_mode=2
+
+[project]
+name=node
+base_path=/home/matt/Desktop/thesis
+description=
+
+[long line marker]
+long_line_behaviour=1
+long_line_column=72
+
+[files]
+current_page=0
+FILE_NAME_0=994;C++;0;16;1;1;0;/home/matt/Desktop/thesis/node.cpp;0;4
+FILE_NAME_1=0;C;0;16;1;1;0;/home/matt/Desktop/thesis/node.h;0;4
+FILE_NAME_2=0;None;0;16;1;1;0;/home/matt/Desktop/thesis/ProgramSteps;0;4
+FILE_NAME_3=376;C;0;16;1;1;0;/home/matt/Desktop/thesis/tcpClient.c;0;4
+
+[build-menu]
+C++FT_00_LB=_Compile
+C++FT_00_CM=g++ -Wall  -c "%f"
+C++FT_00_WD=
+C++FT_01_LB=_Build
+C++FT_01_CM=g++ -Wall  -o "%e" "%f"
+C++FT_01_WD=
+filetypes=C++;
