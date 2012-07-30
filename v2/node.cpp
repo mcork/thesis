@@ -5,13 +5,14 @@
  *
  * Last Modified by: Matthew Cork (22-7-12)
  *
- * Version 1.0
+ * Version 1.1
  *
  */
 
 #define PORT "6000"
 #define NUMCON 1
 #define DEBUGMODE 1	// shows error messages on stdout to allow for debugging
+#define SENDFILE "test.txt"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,7 +22,10 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <fstream>
+#include <iostream>
 
+using namespace std;
 // internal functions
 void *get_in_addr(struct sockaddr *sa);
 int SendMessage(void *message, int messageSize, int socketFd);
@@ -34,8 +38,11 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	struct sockaddr_storage theirAddr; // connector's address information
 	char connectedIP[INET_ADDRSTRLEN];
 	socklen_t socketSize;
+// stuff that is testing
 	char *message = "this is my message to send";
 	char messageRecv[1000]=""; 				// message from connection
+	fstream mySendingData;
+	
 
 	memset(&hints,0,sizeof(hints));	// empty structure
 	hints.ai_family = AF_UNSPEC	;	// IP unspecified
@@ -81,20 +88,46 @@ int SendMessage(void *message, int messageSize, int socketFd);
 		if (DEBUGMODE == 1)printf("server: got connection from %s on %d\n", connectedIP,sockFd);
 
 		// Broadcast Alive Message
-		
+
 		// check to see if incoming message first
 /*		if (select(sockFd,...) == 1){
 			readCheck=read(sockFd, messageRecv,sizeof(messageRecv));
 			if (DEBUGMODE == 1)printf("Read Check: %d\n",readCheck);
 		}
 */		// check to see if shared memory has something to send
-		sendCheck=SendMessage(message,strlen(message),sockFd);
+
+/****************************************************************/
+  ifstream::pos_type size;
+  char * memblock;
+  if (DEBUGMODE == 1)printf("Starting Open Files\n");
+ 
+  mySendingData.open(SENDFILE,ios::binary|ios::in);
+  if (mySendingData.is_open()){
+	  memblock = new char [mySendingData.tellg()];	// size of file
+	  mySendingData.seekg(0, ios::beg);	// ensure file is at the beginning
+	  mySendingData.read(memblock, mySendingData.tellg());	// loading file into memblock
+	  if (DEBUGMODE == 1)printf("Got past Reading\n");
+	  sendCheck = SendMessage(memblock,mySendingData.tellg(),sockFd);
+	  if (sendCheck !=0){
+		 if (DEBUGMODE == 1)printf("Send Check Failed: %d\n",sendCheck);
+	  }
+	  if (DEBUGMODE == 1)printf("Got past Sending\n");
+
+	  mySendingData.close();
+  }else{
+	  if (DEBUGMODE == 1)printf("Failed to Open File\n");
+  }
+ 
+ /****************************************************************/ 
+
+//		sendCheck=SendMessage(message,strlen(message),sockFd);
 //		sendCheck=SendMessage(OG,sizeof(OG),sockFd); //gets implemented when actuall data gets shared
+
 		if (sendCheck != 0){
 			fprintf(stderr,"SENDING ERROR:Failure To Send - %d",sendCheck);
 			if  (DEBUGMODE == 1)fprintf(stdout,"SENDING ERROR:Failure To Send - %d",sendCheck);
 		}
-		
+
 	}
 
 	// shouldn't ever reach here but just in case free up the relevant memory

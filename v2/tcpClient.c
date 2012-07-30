@@ -8,34 +8,41 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <fstream>
+#include <iostream>
 
-#define MAXRCVLEN 500
+#define MAXRCVLEN 50
 #define PORTNUM 6000
+
 
 int parseMessage(int length, char buffer[]);
 
 int main  (int argc, char *argv[]){
 	char buffer[MAXRCVLEN +1];
-	int len=1, mysocket;
+	int len, mysocket;
 	struct sockaddr_in dest;
-	
+
+	fstream myFile;
+	myFile.open("transfer.txt",ios::binary|ios::in|ios::out);
+
 	mysocket = socket(AF_INET, SOCK_STREAM,0);
-	
+
 	memset(&dest, 0, sizeof(dest));
 	dest.sin_family = AF_INET;
-	dest.sin_addr.s_addr = inet_addr("192.168.91.130");
+	dest.sin_addr.s_addr = inet_addr("127.0.0.1");
 	dest.sin_port = htons(PORTNUM);
 
 	connect(mysocket, (struct sockaddr *)&dest, sizeof(struct sockaddr));
-	while (len > 0){
 
-		len = recv(mysocket, buffer, MAXRCVLEN, 0);
+	len = recv(mysocket, buffer, MAXRCVLEN, 0);
 
-		//len = parseMessage(len, buffer);
+	len = parseMessage(len, buffer);
 
+	myFile.seekg(0, ios::beg);
+	myFile.write(buffer, sizeof(buffer));
+	myFile.close();
 
-		printf("Received \"%s\" (%d bytes).\n",buffer, len);
-	}
+	printf("Received \"%s\" (%d bytes).\n",buffer, len);
 	close(mysocket);
 	return EXIT_SUCCESS;
 }
