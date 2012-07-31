@@ -3,9 +3,9 @@
  *
  * Created by: Matthew Cork (27-3-12)
  *
- * Last Modified by: Matthew Cork (22-7-12)
+ * Last Modified by: Matthew Cork (30-7-12)
  *
- * Version 1.1
+ * Version 1.2
  *
  */
 
