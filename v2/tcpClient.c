@@ -11,9 +11,10 @@
 #include <fstream>
 #include <iostream>
 
-#define MAXRCVLEN 50
+#define MAXRCVLEN 500
 #define PORTNUM 6000
 
+using namespace std;
 
 int parseMessage(int length, char buffer[]);
 
