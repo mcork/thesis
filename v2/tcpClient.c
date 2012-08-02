@@ -1,4 +1,4 @@
-// Version 1.1
+// Version 2.1
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,8 +11,9 @@
 #include <fstream>
 #include <iostream>
 
-#define MAXRCVLEN 500
+#define MAXRCVLEN 600
 #define PORTNUM 6000
+#define DEBUGMODE 1 //allows for debugging mode
 
 using namespace std;
 
@@ -24,7 +25,7 @@ int main  (int argc, char *argv[]){
 	struct sockaddr_in dest;
 
 	fstream myFile;
-	myFile.open("transfer.txt",ios::binary|ios::in|ios::out);
+	myFile.open("transfer.txt",ios::binary|ios::out);
 
 	mysocket = socket(AF_INET, SOCK_STREAM,0);
 
@@ -37,13 +38,18 @@ int main  (int argc, char *argv[]){
 
 	len = recv(mysocket, buffer, MAXRCVLEN, 0);
 
-	len = parseMessage(len, buffer);
+//	len = parseMessage(len, buffer);
 
-	myFile.seekg(0, ios::beg);
-	myFile.write(buffer, sizeof(buffer));
-	myFile.close();
+	if (myFile.is_open()){
+		if (DEBUGMODE == 1)printf("File Should Be Open\n");
+		myFile.seekg(0, ios::beg);
+		myFile.write(buffer, len);
+		myFile.close();
+	}else{
+		if (DEBUGMODE == 1)printf("Failed to Open File\n");		
+	}
 
-	printf("Received \"%s\" (%d bytes).\n",buffer, len);
+	printf("Received (%d bytes). Size of buffer %d.\n \%s", len, sizeof(buffer), buffer);
 	close(mysocket);
 	return EXIT_SUCCESS;
 }

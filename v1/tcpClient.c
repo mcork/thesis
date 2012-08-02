@@ -1,3 +1,6 @@
+// Author: Matthew Cork
+// Last Date Modified: 2-Aug-2012
+// v2.1
 
 
 #include <stdio.h>
@@ -9,7 +12,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 
-#define MAXRCVLEN 500
+#define MAXRCVLEN 5000
 #define PORTNUM 6000
 
 int parseMessage(int length, char buffer[]);

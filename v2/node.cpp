@@ -5,14 +5,14 @@
  *
  * Last Modified by: Matthew Cork (30-7-12)
  *
- * Version 1.2
+ * Version 2.2
  *
  */
 
 #define PORT "6000"
 #define NUMCON 1
 #define DEBUGMODE 1	// shows error messages on stdout to allow for debugging
-#define SENDFILE "test.txt"
+#define SENDFILE "TODO"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -90,33 +90,37 @@ int SendMessage(void *message, int messageSize, int socketFd);
 		// Broadcast Alive Message
 
 		// check to see if incoming message first
-/*		if (select(sockFd,...) == 1){
-			readCheck=read(sockFd, messageRecv,sizeof(messageRecv));
-			if (DEBUGMODE == 1)printf("Read Check: %d\n",readCheck);
-		}
-*/		// check to see if shared memory has something to send
+//		if (select(sockFd,...) == 1){
+//			readCheck=read(sockFd, messageRecv,sizeof(messageRecv));
+//			if (DEBUGMODE == 1)printf("Read Check: %d\n",readCheck);
+//		}
+		// check to see if shared memory has something to send
 
 /****************************************************************/
-  ifstream::pos_type size;
-  char * memblock;
-  if (DEBUGMODE == 1)printf("Starting Open Files\n");
+		ifstream::pos_type size;
+		char * memblock;
+		if (DEBUGMODE == 1)printf("Starting Open Files\n");
  
-  mySendingData.open(SENDFILE,ios::binary|ios::in);
-  if (mySendingData.is_open()){
-	  memblock = new char [mySendingData.tellg()];	// size of file
-	  mySendingData.seekg(0, ios::beg);	// ensure file is at the beginning
-	  mySendingData.read(memblock, mySendingData.tellg());	// loading file into memblock
-	  if (DEBUGMODE == 1)printf("Got past Reading\n");
-	  sendCheck = SendMessage(memblock,mySendingData.tellg(),sockFd);
-	  if (sendCheck !=0){
-		 if (DEBUGMODE == 1)printf("Send Check Failed: %d\n",sendCheck);
-	  }
-	  if (DEBUGMODE == 1)printf("Got past Sending\n");
+		mySendingData.open(SENDFILE,ios::binary|ios::out|ios::in);
+		if (mySendingData.is_open()){
+			// find filesize
+			mySendingData.seekg(0,ios::end);			// File Pointer at end of File 
+			int fileSize = mySendingData.tellg();	// determining file size
+			mySendingData.seekg(0,ios::beg);			// File pointer at beginning of file
+			memblock = new char [fileSize];
+			printf("file size - %d\n",fileSize);
+			mySendingData.read(memblock, fileSize);	// loading file into memblock
+			if (DEBUGMODE == 1)printf("Got past Reading\n");
+			sendCheck = SendMessage(memblock,fileSize,sockFd);
+			if (sendCheck !=0){
+				if (DEBUGMODE == 1)printf("Sending Failed: %d\n",sendCheck);
+			}
+			if (DEBUGMODE == 1)printf("Got past Sending\n");
 
-	  mySendingData.close();
-  }else{
-	  if (DEBUGMODE == 1)printf("Failed to Open File\n");
-  }
+			mySendingData.close();
+		}else{
+			if (DEBUGMODE == 1)printf("Failed to Open File\n");
+		}
  
  /****************************************************************/ 
 
