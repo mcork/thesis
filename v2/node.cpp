@@ -103,13 +103,11 @@ int SendMessage(void *message, int messageSize, int socketFd);
  
 		mySendingData.open(SENDFILE,ios::binary|ios::out|ios::in);
 		if (mySendingData.is_open()){
-			// find filesize
 			mySendingData.seekg(0,ios::end);			// File Pointer at end of File 
-			int fileSize = mySendingData.tellg();	// determining file size
+			int fileSize = mySendingData.tellg();		// determining file size
 			mySendingData.seekg(0,ios::beg);			// File pointer at beginning of file
-			memblock = new char [fileSize];
-			printf("file size - %d\n",fileSize);
-			mySendingData.read(memblock, fileSize);	// loading file into memblock
+			memblock = new char [fileSize];				
+			mySendingData.read(memblock, fileSize);		// loading file into memblock
 			if (DEBUGMODE == 1)printf("Got past Reading\n");
 			sendCheck = SendMessage(memblock,fileSize,sockFd);
 			if (sendCheck !=0){
