@@ -31,7 +31,7 @@ int main  (int argc, char *argv[]){
 
 	memset(&dest, 0, sizeof(dest));
 	dest.sin_family = AF_INET;
-	dest.sin_addr.s_addr = inet_addr("127.0.0.1");
+	dest.sin_addr.s_addr = inet_addr("192.168.91.130");
 	dest.sin_port = htons(PORTNUM);
 
 	connect(mysocket, (struct sockaddr *)&dest, sizeof(struct sockaddr));
