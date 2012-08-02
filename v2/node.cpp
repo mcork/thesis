@@ -12,7 +12,7 @@
 #define PORT "6000"
 #define NUMCON 1
 #define DEBUGMODE 1	// shows error messages on stdout to allow for debugging
-#define SENDFILE "TODO"
+#define SENDFILE "testFiles/1M"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,7 +42,6 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	char *message = "this is my message to send";
 	char messageRecv[1000]=""; 				// message from connection
 	fstream mySendingData;
-	
 
 	memset(&hints,0,sizeof(hints));	// empty structure
 	hints.ai_family = AF_UNSPEC	;	// IP unspecified
@@ -106,7 +105,7 @@ int SendMessage(void *message, int messageSize, int socketFd);
 			mySendingData.seekg(0,ios::end);			// File Pointer at end of File 
 			int fileSize = mySendingData.tellg();		// determining file size
 			mySendingData.seekg(0,ios::beg);			// File pointer at beginning of file
-			memblock = new char [fileSize];				
+			memblock = new char [fileSize];
 			mySendingData.read(memblock, fileSize);		// loading file into memblock
 			if (DEBUGMODE == 1)printf("Got past Reading\n");
 			sendCheck = SendMessage(memblock,fileSize,sockFd);
@@ -119,8 +118,8 @@ int SendMessage(void *message, int messageSize, int socketFd);
 		}else{
 			if (DEBUGMODE == 1)printf("Failed to Open File\n");
 		}
- 
- /****************************************************************/ 
+
+ /****************************************************************/
 
 //		sendCheck=SendMessage(message,strlen(message),sockFd);
 //		sendCheck=SendMessage(OG,sizeof(OG),sockFd); //gets implemented when actuall data gets shared
