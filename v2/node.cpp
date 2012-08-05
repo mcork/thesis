@@ -12,7 +12,7 @@
 #define PORT "6000"
 #define NUMCON 1
 #define DEBUGMODE 1	// shows error messages on stdout to allow for debugging
-#define SENDFILE "testFiles/1M"
+#define SENDFILE "1G"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -99,17 +99,17 @@ int SendMessage(void *message, int messageSize, int socketFd);
 		ifstream::pos_type size;
 		char * memblock;
 		if (DEBUGMODE == 1)printf("Starting Open Files\n");
- 
+
 		mySendingData.open(SENDFILE,ios::binary|ios::out|ios::in);
 		if (mySendingData.is_open()){
-			mySendingData.seekg(0,ios::end);			// File Pointer at end of File 
+			mySendingData.seekg(0,ios::end);			// File Pointer at end of File
 			int fileSize = mySendingData.tellg();		// determining file size
 			mySendingData.seekg(0,ios::beg);			// File pointer at beginning of file
 			memblock = new char [fileSize];
 			mySendingData.read(memblock, fileSize);		// loading file into memblock
 			if (DEBUGMODE == 1)printf("Got past Reading\n");
 			sendCheck = SendMessage(memblock,fileSize,sockFd);
-			if (sendCheck !=0){
+			if (sendCheck != 0){
 				if (DEBUGMODE == 1)printf("Sending Failed: %d\n",sendCheck);
 			}
 			if (DEBUGMODE == 1)printf("Got past Sending\n");
@@ -159,15 +159,15 @@ int SendMessage(void *message, int messageSize, int socketFd){
 		// check how many bytes were actually sent and handle errors if zero
 		if (bytesSent == 0){
 			//Error Handle
-			if (DEBUGMODE == 1){
-				printf("Error Writing to socket\n");
-			}
+			if (DEBUGMODE == 1)printf("Error Writing to socket\n");
 			return -1;
 		}
 		// determine how many bytes left to be written
-		messageSize -= bytesSent;
+		messageSize = messageSize - bytesSent;
 		// advance buffer point by that amount
-		messagePtr += bytesSent;
+		messagePtr = messagePtr + bytesSent;
+		if  (DEBUGMODE == 1)printf("message Size - %d, bytes sent - %d\n",messageSize,bytesSent);
+
 	}
 	return 0;
 }

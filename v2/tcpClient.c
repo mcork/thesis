@@ -11,7 +11,7 @@
 #include <fstream>
 #include <iostream>
 
-#define MAXRCVLEN 20971520
+#define MAXRCVLEN 1048576
 #define PORTNUM 6000
 #define DEBUGMODE 1 //allows for debugging mode
 
@@ -31,7 +31,7 @@ int main  (int argc, char *argv[]){
 
 	memset(&dest, 0, sizeof(dest));
 	dest.sin_family = AF_INET;
-	dest.sin_addr.s_addr = inet_addr("192.168.91.130");
+	dest.sin_addr.s_addr = inet_addr("10.0.0.3");
 	dest.sin_port = htons(PORTNUM);
 
 	connect(mysocket, (struct sockaddr *)&dest, sizeof(struct sockaddr));
