@@ -11,7 +11,7 @@
 #include <fstream>
 #include <iostream>
 
-#define MAXRCVLEN 20971520
+#define MAXRCVLEN 1048576
 #define PORTNUM 6000
 #define DEBUGMODE 1 //allows for debugging mode
 
@@ -21,7 +21,8 @@ int parseMessage(int length, char buffer[]);
 
 int main  (int argc, char *argv[]){
 	char buffer[MAXRCVLEN +1];
-	int len, mysocket;
+	int len=-1, mysocket, loopCount=0;
+	char * bufferPtr;
 	struct sockaddr_in dest;
 
 	fstream myFile;
@@ -31,19 +32,27 @@ int main  (int argc, char *argv[]){
 
 	memset(&dest, 0, sizeof(dest));
 	dest.sin_family = AF_INET;
-	dest.sin_addr.s_addr = inet_addr("192.168.91.130");
+	dest.sin_addr.s_addr = inet_addr("10.0.0.2");
 	dest.sin_port = htons(PORTNUM);
 
 	connect(mysocket, (struct sockaddr *)&dest, sizeof(struct sockaddr));
-
-	len = recv(mysocket, buffer, MAXRCVLEN, 0);
-
+	bufferPtr = buffer;
+	while (len !=0){
+		len = recv(mysocket, buffer, MAXRCVLEN, 0);
+		printf("Loop Counter (%d)\nAlso len(%d)\n",loopCount,len);
+		bufferPtr += len;
+		loopCount++;
+		if (len < 1448){
+			len=0;
+		}
+	}
+	printf("Finished recieving\n");
 //	len = parseMessage(len, buffer);
 
 	if (myFile.is_open()){
 		if (DEBUGMODE == 1)printf("File Should Be Open\n");
 		myFile.seekg(0, ios::beg);
-		myFile.write(buffer, len);
+		myFile.write(buffer, sizeof(buffer));
 		myFile.close();
 	}else{
 		if (DEBUGMODE == 1)printf("Failed to Open File\n");		
