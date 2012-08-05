@@ -11,7 +11,7 @@
 #include <fstream>
 #include <iostream>
 
-#define MAXRCVLEN 600
+#define MAXRCVLEN 20971520
 #define PORTNUM 6000
 #define DEBUGMODE 1 //allows for debugging mode
 
