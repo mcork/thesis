@@ -21,7 +21,8 @@ int parseMessage(int length, char buffer[]);
 
 int main  (int argc, char *argv[]){
 	char buffer[MAXRCVLEN +1];
-	int len, mysocket;
+	int len=-1, mysocket, loopCount=0;
+	int recvLen=0;
 	struct sockaddr_in dest;
 
 	fstream myFile;
@@ -31,25 +32,32 @@ int main  (int argc, char *argv[]){
 
 	memset(&dest, 0, sizeof(dest));
 	dest.sin_family = AF_INET;
-	dest.sin_addr.s_addr = inet_addr("10.0.0.3");
+	dest.sin_addr.s_addr = inet_addr("10.0.0.2");
 	dest.sin_port = htons(PORTNUM);
 
 	connect(mysocket, (struct sockaddr *)&dest, sizeof(struct sockaddr));
-
-	len = recv(mysocket, buffer, MAXRCVLEN, 0);
-
+	while (len !=0){
+		len = recv(mysocket, buffer, MAXRCVLEN, 0);
+		printf("Loop Counter (%d)\nAlso len(%d)\nRecvLen (%d)\n",loopCount,len,recvLen);
+		recvLen += len;
+		loopCount++;
+		if (len < 1448){
+			len=0;
+		}
+	}
+	printf("Finished recieving. Total Length %d\n",recvLen);
 //	len = parseMessage(len, buffer);
 
 	if (myFile.is_open()){
 		if (DEBUGMODE == 1)printf("File Should Be Open\n");
 		myFile.seekg(0, ios::beg);
-		myFile.write(buffer, len);
+		myFile.write(buffer, recvLen);
 		myFile.close();
 	}else{
 		if (DEBUGMODE == 1)printf("Failed to Open File\n");		
 	}
 
-	printf("Received (%d bytes). Size of buffer %d.\n \%s", len, sizeof(buffer), buffer);
+	printf("Received (%d bytes). Size of buffer %d.\n \%s", recvLen, sizeof(buffer), buffer);
 	close(mysocket);
 	return EXIT_SUCCESS;
 }
