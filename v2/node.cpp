@@ -88,7 +88,8 @@ int SendMessage(void *message, int messageSize, int socketFd);
 
 		// Broadcast Alive Message
 
-		// check to see if incoming message first
+		// poll to see if incoming message first
+//		need to use poll() functions - beej guide will give more information
 //		if (select(sockFd,...) == 1){
 //			readCheck=read(sockFd, messageRecv,sizeof(messageRecv));
 //			if (DEBUGMODE == 1)printf("Read Check: %d\n",readCheck);
