@@ -20,6 +20,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/poll.h>
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <fstream>
@@ -38,6 +39,7 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	struct sockaddr_storage theirAddr; // connector's address information
 	char connectedIP[INET_ADDRSTRLEN];
 	socklen_t socketSize;
+	struct pollfd readfs[NUMCON];				// needed for polling
 // stuff that is testing
 	char *message = "this is my message to send";
 	char messageRecv[1000]=""; 				// message from connection
@@ -89,14 +91,32 @@ int SendMessage(void *message, int messageSize, int socketFd);
 		// Broadcast Alive Message
 
 		// poll to see if incoming message first
-//		need to use poll() functions - beej guide will give more information
-//		if (select(sockFd,...) == 1){
-//			readCheck=read(sockFd, messageRecv,sizeof(messageRecv));
-//			if (DEBUGMODE == 1)printf("Read Check: %d\n",readCheck);
-//		}
+/**************** READ INCOMING MESSAGES FROM OTHERS *********************************/
+		readfs[1].fd = sockFd;
+		readfs[1].events = POLLIN;
+		status = poll(readfs, 1,100);
+		if (DEBUGMODE == 1)printf("got past polling\n");
+		if (status == -1){
+			if (DEBUGMODE == 1){
+				printf("Polling Failed with Error Code\n");
+				perror("Polling Failed with Error Code\n");
+			}
+		}else if (status == 0){
+			if (DEBUGMODE == 1)printf("Polling Timedout: Continuing\n");
+		}else{
+			if (DEBUGMODE == 1)printf("Poll Status: %d\n",status);
+			// Need to read data in and deal with it
+			readCheck=read(sockFd, messageRecv,sizeof(messageRecv));
+			if (DEBUGMODE == 1)printf("Got Data %s\n",messageRecv);
+		}
+
+
+/***************** CHECK FOR SOMETHING TO CHANGE ****************************************************/
 		// check to see if shared memory has something to send
 
-/****************************************************************/
+
+/*************************************************************************************/
+/*************** TEMP: OPEN FILE FROM FS ***********************************************/
 		ifstream::pos_type size;
 		char * memblock;
 		if (DEBUGMODE == 1)printf("Starting Open Files\n");
@@ -119,8 +139,8 @@ int SendMessage(void *message, int messageSize, int socketFd);
 		}else{
 			if (DEBUGMODE == 1)printf("Failed to Open File\n");
 		}
-
- /****************************************************************/
+/*******************************************************************************************/
+ /*************** SEND MESSAGE TO OTHERS *************************************************/
 
 //		sendCheck=SendMessage(message,strlen(message),sockFd);
 //		sendCheck=SendMessage(OG,sizeof(OG),sockFd); //gets implemented when actuall data gets shared
@@ -129,6 +149,8 @@ int SendMessage(void *message, int messageSize, int socketFd);
 			fprintf(stderr,"SENDING ERROR:Failure To Send - %d",sendCheck);
 			if  (DEBUGMODE == 1)fprintf(stdout,"SENDING ERROR:Failure To Send - %d",sendCheck);
 		}
+		
+ /***************************************************************************************/
 
 	}
 

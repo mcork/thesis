@@ -1,14 +1,15 @@
 NEXT STEPS
-- send a file through the system and open it on the other side
+- send a file through the system and open it on the other side -- DONE!!
 - make the connection duplex (i.e send/recieve by both people)
 	- get read to work before write
-- intergrate the shared memory
+- integrate the shared memory
 - open data from shared memory and send to the other side
 	- Get a file written to shared memory and send it through 
 	- Open on other side
 
 Make intelligent design
 	- chooses what to send
+
 Scaleable solution increase to more than one
 	- more than two connections possibly a while loop
 		- Loop through all read and merge data
