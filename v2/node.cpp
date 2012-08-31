@@ -3,7 +3,7 @@
  *
  * Created by: Matthew Cork (27-3-12)
  *
- * Last Modified by: Matthew Cork (30-7-12)
+ * Last Modified by: Matthew Cork (31-8-12)
  *
  * Version 2.2
  *
@@ -28,7 +28,7 @@
 
 using namespace std;
 // internal functions
-void *get_in_addr(struct sockaddr *sa);
+void *get_in_addr(struct sockaddr *saq);
 int SendMessage(void *message, int messageSize, int socketFd);
 
  int main(){
