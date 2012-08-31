@@ -12,7 +12,7 @@
 #define PORT "6000"
 #define NUMCON 1
 #define DEBUGMODE 1	// shows error messages on stdout to allow for debugging
-#define SENDFILE "testFiles/10K"
+#define SENDFILE "TODO"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -87,73 +87,57 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	        }
 		inet_ntop(theirAddr.ss_family,get_in_addr((struct sockaddr *)&theirAddr),connectedIP, sizeof connectedIP);
 		if (DEBUGMODE == 1)printf("server: got connection from %s on %d\n", connectedIP,sockFd);
+		while(1){
+			// Broadcast Alive Message
 
-		// Broadcast Alive Message
+			// poll to see if incoming message first
+	/**************** READ INCOMING MESSAGES FROM OTHERS *********************************/
+				// Need to read data in and deal with it
+				readCheck=recv(sockFd, messageRecv,sizeof(messageRecv),MSG_DONTWAIT);
+				if (DEBUGMODE == 1)printf("Read Check: %d\n",readCheck);
 
-		// poll to see if incoming message first
-/**************** READ INCOMING MESSAGES FROM OTHERS *********************************/
-		readfs[1].fd = sockFd;
-		readfs[1].events = POLLIN;
-		status = poll(readfs, 1,100);
-		if (DEBUGMODE == 1)printf("got past polling\n");
-		if (status == -1){
-			if (DEBUGMODE == 1){
-				printf("Polling Failed with Error Code\n");
-				perror("Polling Failed with Error Code\n");
+	/***************** CHECK FOR SOMETHING TO CHANGE ****************************************************/
+			// check to see if shared memory has something to send
+
+
+	/*************************************************************************************/
+	/*************** TEMP: OPEN FILE FROM FS ***********************************************/
+			ifstream::pos_type size;
+			char * memblock;
+			if (DEBUGMODE == 1)printf("Starting Open Files\n");
+
+			mySendingData.open(SENDFILE,ios::binary|ios::out|ios::in);
+			if (mySendingData.is_open()){
+				mySendingData.seekg(0,ios::end);			// File Pointer at end of File
+				int fileSize = mySendingData.tellg();		// determining file size
+				mySendingData.seekg(0,ios::beg);			// File pointer at beginning of file
+				memblock = new char [fileSize];
+				mySendingData.read(memblock, fileSize);		// loading file into memblock
+				if (DEBUGMODE == 1)printf("Got past Reading\n");
+				sendCheck = SendMessage(memblock,fileSize,sockFd);
+				if (sendCheck != 0){
+					if (DEBUGMODE == 1)printf("Sending Failed: %d\n",sendCheck);
+				}
+				if (DEBUGMODE == 1)printf("Got past Sending\n");
+
+				mySendingData.close();
+			}else{
+				if (DEBUGMODE == 1)printf("Failed to Open File\n");
 			}
-		}else if (status == 0){
-			if (DEBUGMODE == 1)printf("Polling Timedout: Continuing\n");
-		}else{
-			if (DEBUGMODE == 1)printf("Poll Status: %d\n",status);
-			// Need to read data in and deal with it
-			readCheck=read(sockFd, messageRecv,sizeof(messageRecv));
-			if (DEBUGMODE == 1)printf("Got Data %s\n",messageRecv);
-		}
+	/*******************************************************************************************/
+	 /*************** SEND MESSAGE TO OTHERS *************************************************/
 
+	//		sendCheck=SendMessage(message,strlen(message),sockFd);
+	//		sendCheck=SendMessage(OG,sizeof(OG),sockFd); //gets implemented when actuall data gets shared
 
-/***************** CHECK FOR SOMETHING TO CHANGE ****************************************************/
-		// check to see if shared memory has something to send
-
-
-/*************************************************************************************/
-/*************** TEMP: OPEN FILE FROM FS ***********************************************/
-		ifstream::pos_type size;
-		char * memblock;
-		if (DEBUGMODE == 1)printf("Starting Open Files\n");
-
-		mySendingData.open(SENDFILE,ios::binary|ios::out|ios::in);
-		if (mySendingData.is_open()){
-			mySendingData.seekg(0,ios::end);			// File Pointer at end of File
-			int fileSize = mySendingData.tellg();		// determining file size
-			mySendingData.seekg(0,ios::beg);			// File pointer at beginning of file
-			memblock = new char [fileSize];
-			mySendingData.read(memblock, fileSize);		// loading file into memblock
-			if (DEBUGMODE == 1)printf("Got past Reading\n");
-			sendCheck = SendMessage(memblock,fileSize,sockFd);
 			if (sendCheck != 0){
-				if (DEBUGMODE == 1)printf("Sending Failed: %d\n",sendCheck);
+				fprintf(stderr,"SENDING ERROR:Failure To Send - %d",sendCheck);
+				if  (DEBUGMODE == 1)fprintf(stdout,"SENDING ERROR:Failure To Send - %d",sendCheck);
 			}
-			if (DEBUGMODE == 1)printf("Got past Sending\n");
-
-			mySendingData.close();
-		}else{
-			if (DEBUGMODE == 1)printf("Failed to Open File\n");
-		}
-/*******************************************************************************************/
- /*************** SEND MESSAGE TO OTHERS *************************************************/
-
-//		sendCheck=SendMessage(message,strlen(message),sockFd);
-//		sendCheck=SendMessage(OG,sizeof(OG),sockFd); //gets implemented when actuall data gets shared
-
-		if (sendCheck != 0){
-			fprintf(stderr,"SENDING ERROR:Failure To Send - %d",sendCheck);
-			if  (DEBUGMODE == 1)fprintf(stdout,"SENDING ERROR:Failure To Send - %d",sendCheck);
-		}
 		
  /***************************************************************************************/
-
+		}
 	}
-
 	// shouldn't ever reach here but just in case free up the relevant memory
 	freeaddrinfo(servinfo);	// free memory
 	return 0;

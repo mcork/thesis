@@ -1,5 +1,5 @@
-NEXT STEPS
-- send a file through the system and open it on the other side -- DONE!!
+  NEXT STEPS
+ - send a file through the system and open it on the other side -- DONE!!
 - make the connection duplex (i.e send/recieve by both people)
 	- get read to work before write
 - integrate the shared memory
