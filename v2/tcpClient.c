@@ -40,34 +40,35 @@ int main  (int argc, char *argv[]){
 
 	connect(mysocket, (struct sockaddr *)&dest, sizeof(struct sockaddr));
 	while (true){
-		while (len !=0){
-			len = recv(mysocket, buffer, MAXRCVLEN, 0);
-			printf("Loop Counter (%d)\nAlso len(%d)\nRecvLen (%d)\n",loopCount,len,recvLen);
-			recvLen += len;
-			loopCount++;
-			if (len < 1448){
-				len=0;
+		while(true){
+			while (len !=0){
+				len = recv(mysocket, buffer, MAXRCVLEN, 0);
+				printf("Loop Counter (%d)\nAlso len(%d)\nRecvLen (%d)\n",loopCount,len,recvLen);
+				recvLen += len;
+				loopCount++;
+				if (len < 1448){
+					len=0;
+				}
 			}
-		}
-		if (checkBuffer(buffer,bufferOld)==0){
-			printf("Received (%d bytes) of new data. Size of new buffer %d.\n \%s\n", recvLen, sizeof(buffer), buffer);
-			for (int i=0;i <= sizeof(buffer);i++)bufferOld[i] = buffer[i];
-			if (myFile.is_open()){
-				if (DEBUGMODE == 1)printf("File Should Be Open\n");
-				myFile.seekg(0, ios::beg);
-				myFile.write(buffer, recvLen);
-				myFile.close();
+			if (checkBuffer(buffer,bufferOld)==0){
+				printf("Received (%d bytes) of new data. Size of new buffer %d.\n \%s\n", recvLen, sizeof(buffer), buffer);
+				for (int i=0;i <= sizeof(buffer);i++)bufferOld[i] = buffer[i];
+				if (myFile.is_open()){
+					if (DEBUGMODE == 1)printf("File Should Be Open\n");
+					myFile.seekg(0, ios::beg);
+					myFile.write(buffer, recvLen);
+					myFile.close();
+				}else{
+					if (DEBUGMODE == 1)printf("Failed to Open File\n");		
+				}
 			}else{
-				if (DEBUGMODE == 1)printf("Failed to Open File\n");		
+				printf("No new message was sent\n");
 			}
-		}else{
-			printf("No new message was sent\n");
-		}
-		sleep(2);
-		printf("Finished recieving. Total Length %d\n",recvLen);
-	//	len = parseMessage(len, buffer);
+			sleep(2);
+			printf("Finished recieving. Total Length %d\n",recvLen);
+		//	len = parseMessage(len, buffer);
 
-		
+		}
 	}
 	close(mysocket);
 	return EXIT_SUCCESS;

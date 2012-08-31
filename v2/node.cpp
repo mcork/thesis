@@ -73,9 +73,9 @@ int SendMessage(void *message, int messageSize, int socketFd);
 		return 2;
 	}
 	if (listen(listenFd, NUMCON) == -1) {
-        perror("listen");
-        return 1;
-    }
+		perror("listen");
+		return 1;
+   	}
 	// Server Info
 	if (DEBUGMODE == 1)printf("server: waiting for connections...\n");
 	while(1){
@@ -92,10 +92,9 @@ int SendMessage(void *message, int messageSize, int socketFd);
 
 			// poll to see if incoming message first
 	/**************** READ INCOMING MESSAGES FROM OTHERS *********************************/
-				// Need to read data in and deal with it
-				readCheck=recv(sockFd, messageRecv,sizeof(messageRecv),MSG_DONTWAIT);
-				if (DEBUGMODE == 1)printf("Read Check: %d\n",readCheck);
-
+			// Need to read data in and deal with it
+			readCheck=recv(sockFd, messageRecv,sizeof(messageRecv),MSG_DONTWAIT);
+			if (DEBUGMODE == 1)printf("Read Check: %d\n",readCheck);
 	/***************** CHECK FOR SOMETHING TO CHANGE ****************************************************/
 			// check to see if shared memory has something to send
 
@@ -125,7 +124,7 @@ int SendMessage(void *message, int messageSize, int socketFd);
 				if (DEBUGMODE == 1)printf("Failed to Open File\n");
 			}
 	/*******************************************************************************************/
-	 /*************** SEND MESSAGE TO OTHERS *************************************************/
+	/*************** SEND MESSAGE TO OTHERS ****************************************************/
 
 	//		sendCheck=SendMessage(message,strlen(message),sockFd);
 	//		sendCheck=SendMessage(OG,sizeof(OG),sockFd); //gets implemented when actuall data gets shared
@@ -135,7 +134,7 @@ int SendMessage(void *message, int messageSize, int socketFd);
 				if  (DEBUGMODE == 1)fprintf(stdout,"SENDING ERROR:Failure To Send - %d",sendCheck);
 			}
 		
- /***************************************************************************************/
+	/*******************************************************************************************/
 		}
 	}
 	// shouldn't ever reach here but just in case free up the relevant memory
@@ -162,7 +161,7 @@ int SendMessage(void *message, int messageSize, int socketFd){
 	// Loop through all of these steps until all sent
 	while (messageSize > 0){
 		// send all bytes
-		bytesSent = write(socketFd, messagePtr, messageSize);
+		bytesSent = send(socketFd, messagePtr, messageSize,MSG_DONTROUTE);
 		// check how many bytes were actually sent and handle errors if zero
 		if (bytesSent == 0){
 			//Error Handle
