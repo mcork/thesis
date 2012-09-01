@@ -25,6 +25,7 @@
 #include <arpa/inet.h>
 #include <fstream>
 #include <iostream>
+#include <signal.h>
 
 using namespace std;
 // internal functions
@@ -130,8 +131,9 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	//		sendCheck=SendMessage(OG,sizeof(OG),sockFd); //gets implemented when actuall data gets shared
 
 			if (sendCheck != 0){
-				fprintf(stderr,"SENDING ERROR:Failure To Send - %d",sendCheck);
+				fprintf(stderr,"SENDING ERROR:Failure To Send - %d\n",sendCheck);
 				if  (DEBUGMODE == 1)fprintf(stdout,"SENDING ERROR:Failure To Send - %d",sendCheck);
+				break;
 			}
 		
 	/*******************************************************************************************/
@@ -159,11 +161,13 @@ int SendMessage(void *message, int messageSize, int socketFd){
 	int bytesSent=0;
 	int *messagePtr=(int*)message;
 	// Loop through all of these steps until all sent
+	signal(SIGPIPE, SIG_IGN); // stopping server crashing with disconnected client
+	
 	while (messageSize > 0){
 		// send all bytes
-		bytesSent = send(socketFd, messagePtr, messageSize,MSG_DONTROUTE);
+			bytesSent = write(socketFd, messagePtr, messageSize);
 		// check how many bytes were actually sent and handle errors if zero
-		if (bytesSent == 0){
+		if (bytesSent < 0){
 			//Error Handle
 			if (DEBUGMODE == 1)printf("Error Writing to socket\n");
 			return -1;
@@ -175,6 +179,7 @@ int SendMessage(void *message, int messageSize, int socketFd){
 		if  (DEBUGMODE == 1)printf("message Size - %d, bytes sent - %d\n",messageSize,bytesSent);
 
 	}
+	if  (DEBUGMODE == 1)printf("Message Finishing Sending\n");
 	return 0;
 }
 
