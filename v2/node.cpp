@@ -9,7 +9,8 @@
  *
  */
 
-#define SERVERPORT "6000"
+#define SERVERPORT 6000
+#define SERVER "6000"
 #define NUMCON 1
 #define DEBUGMODE 1	// shows error messages on stdout to allow for debugging
 #define SENDFILE "TODO"
@@ -36,7 +37,7 @@ void *get_in_addr(struct sockaddr *saq);
 int SendMessage(void *message, int messageSize, int socketFd);
 
  int main(){
-	int status, listenFd, sockFd;
+	int status, listenFd, ServerSockFd;
 	int sendCheck, readCheck;		// check to for internal functions
 	struct addrinfo hints, *p;
 	struct addrinfo *servinfo; // results
@@ -49,11 +50,12 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	// shared memory
 	shmem_region<OG> OGMap("OG");
 	OG myOG;
+	OG messageRecv;
 
 /////////////////////////////////////////////////////////////////////////////
 // stuff that is testing
 	char *message = "this is my message to send";
-	char messageRecv[1000]=""; 				// message from connection
+	//char messageRecv[1000]=""; 				// message from connection
 	fstream mySendingData;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -75,14 +77,14 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	myOG.xVal=0;
 	myOG.yVal=0;
 	myOG.zVal=0;
-	myOG.myChange=FALSE;
-	myOG.otherChange=FALSE;
+	myOG.myChange=false;
+	myOG.otherChange=false;
 
 // initialising recv connection
 	connect(recvSock, (struct sockaddr *)&recvDest, sizeof(struct sockaddr));
 
 // Initialising server connection
-	if ((status = getaddrinfo(NULL,SERVERPORT,&hints,&servinfo))!=0){
+	if ((status = getaddrinfo(NULL,SERVER,&hints,&servinfo))!=0){
 		fprintf(stderr,"get addrinfo error: %s\n", gai_strerror(status));
 	}
 
@@ -118,26 +120,26 @@ int SendMessage(void *message, int messageSize, int socketFd);
 			continue;
 	        }
 		inet_ntop(theirAddr.ss_family,get_in_addr((struct sockaddr *)&theirAddr),connectedIP, sizeof connectedIP);
-		if (DEBUGMODE == 1)printf("server: got connection from %s on %d\n", connectedIP,sockFd);
+		if (DEBUGMODE == 1)printf("server: got connection from %s on %d\n", connectedIP,ServerSockFd);
 		while(1){
 			// Broadcast Alive Message
 
 	/**************** READ INCOMING MESSAGES FROM OTHERS *********************************/
 			// Need to read data in and deal with it
-			readCheck=recv(recvSock, messageRecv,sizeof(messageRecv),MSG_DONTWAIT);
+			readCheck=recv(recvSock, &messageRecv,sizeof(messageRecv),MSG_DONTWAIT);
 			if (DEBUGMODE == 1)printf("Read Check: %d\n",readCheck);
 			if (readCheck > -1) {
-				printf("Got data %s\n",messageRecv);
-				messageRecv.Xval = myOG.xVal;
-				messageRecv.Yval = myOG.yVal;
-				messageRecv.Zval = myOG.zVal;
-				myOG.otherChange = TRUE;
+				printf("Got data\n");
+				messageRecv.xVal = myOG.xVal;
+				messageRecv.yVal = myOG.yVal;
+				messageRecv.zVal = myOG.zVal;
+				myOG.otherChange = true;
 				OGMap.write(myOG);
 			}
 	/***************** SYNC OG WITH LOCAL  ****************************************************/
 			// check to see if shared memory has something to send
-			myOG = OGMap.read();
-			if (myOG.myChange == TRUE){
+			myOG = *OGMap.read();
+			if (myOG.myChange == true){
 	/*************************************************************************************/
 	/*************** TEMP: OPEN FILE FROM FS ***********************************************
 			ifstream::pos_type size;
@@ -165,10 +167,11 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	/*******************************************************************************************/
 	/*************** SEND MESSAGE TO OTHERS ****************************************************/
 
-				sendCheck=SendMessage(myOG,sizeof(myOG),ServerSockFd);
+				if  (DEBUGMODE == 1)printf("Starting Send Sequence\n");
+				sendCheck=SendMessage(&myOG,sizeof(myOG),ServerSockFd);
 				if (sendCheck != 0){
 					fprintf(stderr,"SENDING ERROR:Failure To Send\n");
-					if  (DEBUGMODE == 1)fprintf(stdout,"SENDING ERROR:Failure To Send - %d",sendCheck);
+					if  (DEBUGMODE == 1)fprintf(stdout,"SENDING ERROR:Failure To Send - %d\n",sendCheck);
 					break;
 				}
 			}
