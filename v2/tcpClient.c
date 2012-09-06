@@ -29,7 +29,7 @@ int main  (int argc, char *argv[]){
 	struct sockaddr_in dest;
 
 	fstream myFile;
-	myFile.open("transfer.txt",ios::binary|ios::out);
+	myFile.open("transfer1.txt",ios::binary|ios::out);
 
 	mysocket = socket(AF_INET, SOCK_STREAM,0);
 

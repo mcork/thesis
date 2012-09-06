@@ -13,7 +13,6 @@
 #define SERVER "6000"
 #define NUMCON 1
 #define DEBUGMODE 1	// shows error messages on stdout to allow for debugging
-#define SENDFILE "TODO"
 #define IPADDR "127.0.0.1"	// can't use loopback anymore as clases will happen with node recv and send
 
 #include <stdio.h>
@@ -50,13 +49,8 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	// shared memory
 	shmem_region<OG> OGMap("OG");
 	OG myOG;
+	OG* sharedOG;
 	OG messageRecv;
-
-/////////////////////////////////////////////////////////////////////////////
-// stuff that is testing
-	char *message = "this is my message to send";
-	//char messageRecv[1000]=""; 				// message from connection
-	fstream mySendingData;
 
 /////////////////////////////////////////////////////////////////////////////
 	// socket details for read
@@ -138,33 +132,14 @@ int SendMessage(void *message, int messageSize, int socketFd);
 			}
 	/***************** SYNC OG WITH LOCAL  ****************************************************/
 			// check to see if shared memory has something to send
-			myOG = *OGMap.read();
+			sharedOG = OGMap.read();
+			myOG.xVal = sharedOG->xVal;
+			myOG.yVal = sharedOG->yVal;
+			myOG.zVal = sharedOG->zVal;
+			myOG.myChange = sharedOG->myChange;
+			if (DEBUGMODE)printf("MyChange - %d\n",myOG.myChange);
 			if (myOG.myChange == true){
 	/*************************************************************************************/
-	/*************** TEMP: OPEN FILE FROM FS ***********************************************
-			ifstream::pos_type size;
-			char * memblock;
-			if (DEBUGMODE == 1)printf("Starting Open Files\n");
-
-			mySendingData.open(SENDFILE,ios::binary|ios::out|ios::in);
-			if (mySendingData.is_open()){
-				mySendingData.seekg(0,ios::end);		// File Pointer at end of File
-				int fileSize = mySendingData.tellg();		// determining file size
-				mySendingData.seekg(0,ios::beg);		// File pointer at beginning of file
-				memblock = new char [fileSize];
-				mySendingData.read(memblock, fileSize);		// loading file into memblock
-				if (DEBUGMODE == 1)printf("Got past Reading\n");
-				sendCheck = SendMessage(memblock,fileSize,ServerSockFd);
-				if (sendCheck != 0){
-					if (DEBUGMODE == 1)printf("Sending Failed: %d\n",sendCheck);
-				}
-				if (DEBUGMODE == 1)printf("Got past Sending\n");
-
-				mySendingData.close();
-			}else{
-				if (DEBUGMODE == 1)printf("Failed to Open File\n");
-			}
-	/*******************************************************************************************/
 	/*************** SEND MESSAGE TO OTHERS ****************************************************/
 
 				if  (DEBUGMODE == 1)printf("Starting Send Sequence\n");
