@@ -43,7 +43,7 @@ int main  (int argc, char *argv[]){
 		while(true){
 			while (len !=0){
 				len = recv(mysocket, buffer, MAXRCVLEN, 0);
-				printf("Loop Counter (%d)\nAlso len(%d)\nRecvLen (%d)\n",loopCount,len,recvLen);
+				printf("Loop Counter (%d), Len(%d), RecvLen (%d)\n",loopCount,len,recvLen);
 				recvLen += len;
 				loopCount++;
 				if (len < 1448){

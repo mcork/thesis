@@ -141,7 +141,8 @@ int SendMessage(void *message, int messageSize, int socketFd);
 			if (myOG.myChange == true){
 	/*************************************************************************************/
 	/*************** SEND MESSAGE TO OTHERS ****************************************************/
-
+				myOG.myChange == false;
+				OGMap.write(myOG);
 				if  (DEBUGMODE == 1)printf("Starting Send Sequence\n");
 				sendCheck=SendMessage(&myOG,sizeof(myOG),ServerSockFd);
 				if (sendCheck != 0){

@@ -4,21 +4,21 @@
  *  This is a shared memory designed for use in the MAVStar '11 project at University of New South Wales. It uses a circular buffer to emulate
  *  synchornisation. The buffer size is recommended to be greater than or equal to 10
  *  This is the intellectual property of Matthew Cork and can only be use by authourised people or future MAVStar teams at UNSW.
- * 
+ *
  *
  *  Author: Matt Cork
- *  Created on: Sep 7, 2010  
+ *  Created on: Sep 7, 2010
  *  Last Modified By: Matt Cork March 10,2011
- * 
+ *
  */
 
 
 /*
- * 
+ *
  * Error Message: If read is called without write having being called returns -1
- * 
+ *
  * NOTE: Doesn't work for large shared memory
- * 
+ *
  */
 
 #ifndef LIBSHMEM_HPP_
