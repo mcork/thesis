@@ -133,10 +133,13 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	/***************** SYNC OG WITH LOCAL  ****************************************************/
 			// check to see if shared memory has something to send
 			sharedOG = OGMap.read();
-			myOG.xVal = sharedOG->xVal;
-			myOG.yVal = sharedOG->yVal;
-			myOG.zVal = sharedOG->zVal;
-			myOG.myChange = sharedOG->myChange;
+			std::cout << "sharedOG - " << sharedOG << std::endl;
+			if (sharedOG != (OG*)-1){
+				myOG.xVal = sharedOG->xVal;
+				myOG.yVal = sharedOG->yVal;
+				myOG.zVal = sharedOG->zVal;
+				myOG.myChange = sharedOG->myChange;
+			}
 			if (DEBUGMODE)printf("MyChange - %d\n",myOG.myChange);
 			if (myOG.myChange == true){
 	/*************************************************************************************/

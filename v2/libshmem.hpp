@@ -24,7 +24,7 @@
 #ifndef LIBSHMEM_HPP_
 #define LIBSHMEM_HPP_
 
-#define BUFFER_SIZE 10
+#define BUFFER_SIZE 1
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -66,9 +66,9 @@ struct shmem_region
 	T* read()
 	{
 		int error=-1;
-		if (*read_entry_ == 0){
-			return (T*)error;
-		}
+//		if (*read_entry_ == 0){
+//			return (T*)error;
+//		}
 		return &buffer_[*read_entry_-1].item;			// returns the item in the buffer
 	}
 
@@ -78,7 +78,7 @@ struct shmem_region
 		myItem.item = item;
 		buffer_[*write_entry_-1] = myItem;			// Places into the buffer at point next able to be written
 		*read_entry_ = *write_entry_;				// assign read_entry to the new value just written
-		*write_entry_ ++;					// increment write entry for next write
+//		*write_entry_ ++;					// increment write entry for next write
 		*write_entry_ = (*write_entry_ % BUFFER_SIZE)+1;	// stops from overflowing buffer bounds
 	}
 
