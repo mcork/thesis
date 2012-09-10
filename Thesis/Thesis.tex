@@ -7,7 +7,7 @@
 \usepackage{amssymb}
 \usepackage{epstopdf}				% TeX will automatically convert eps --> pdf in pdflatex		
 \usepackage{setspace}
-
+\setcounter{secnumdepth}{-1}
 \doublespacing
 
 \title{Efficient Wireless Adhoc Node to Node Occupancy Grid Sharing for Mobile Platforms in Urban Environments}
@@ -15,21 +15,34 @@
 \date{}							% Activate to display a given date or no date
 
 
-
 \begin{document}
 
 \maketitle {}
 \newpage
 \begin{abstract}
+\addcontentsline{toc}{section}{Abstract}
 My abstract goes here...
-...
 \end{abstract}
 \newpage
-\tableofcontents
+\renewcommand{\abstractname}{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+\begin{abstract}
+Ackowledgements go here
+\end{abstract}
 \newpage
-\section{Background}
-%\subsection{}
-
+\renewcommand\contentsname{Table of Contents}
+\tableofcontents
+\addcontentsline{toc}{section}{Table of Contents}
+\newpage
+\listoffigures
+\addcontentsline{toc}{section}{List of Figures}
+\newpage
+\listoftables
+\addcontentsline{toc}{section}{List of Tables}
+\newpage
+\section{Chapter 1: Introduction}
+\newpage
+\section{Chapter 2: Literature Review}
 Occupancy Grid's (OG) are an important part of mapping while operating mobile platforms in a ever changing Urban environment. One of the major problems with mapping is the need for multiple devices to map simultaneously. This allows for a fastest and more accurate map to be created but creates a new set of problems. Some of these problems consist of an efficient way to shared the OG to ensure that all the mobile platforms have the same updated map and a lack of infrastructure for wireless communication.
 
 Adhoc networks were designed to eliminate the infrastructure requirements and allow for communication between the mobile platforms without the need of a base station.
@@ -44,11 +57,8 @@ Putta, Prasad, Ravilla, Nath and Chandra outlined the different algorithms used 
 
 Abdel-Hardy and Ward also tested the difference between the proactive protocol (OLSR) and the reactive protocols AODV and Dynamic Manet On Demand (DYMO). They tests include one video stream with five UDP data connections, one video stream with 50 UDP connections and multiple video streams. It the first test it was showed that the DYMO performed better than the AODV while OLSR performed the worse. The second case showed that the AODV was more efficient than the DYMO while both reactive protocols were more efficient than the OLSR. In both these test background data was introduced to measure the effect. For the last test they had multiple video sources transmitting data. This test was consistent with their early two test which showed that for smaller dynamic MANETS the DYMO was more efficient. This paper showed that in a constantly changing MANET the DYMO protocol was the most efficient method of communication for both single and multiple video streams.
 
-
-
-
 \newpage
-\section {Technical Report}
+\section {Chapter 3: Technical Report}
 Network communication can be achieved on five main network layers. These layers are the physical, datalink, Network, transport and the application. The transmission of data from the application layer is passed down, through the transport, network, datalink and then finally to the physical link. \newline
 The physical link is the only link that has a direct connection to another devices. This base link depends on the method used to connect the devices. This could be via copper, fibre or even wireless. The physical layer sends its data using electrical pulses and waves on the electromagnetic frequency. This is received by other wireless devices for communication. \newline
 The link layer sits above the physical layer. This layer is mostly implemented in the Network Interface Card (NIC). The NIC is the onboard hardware that handles the data passed  from the physical layer. The NIC uses the Message Authentication Code (MAC) protocol which gives a unique MAC address for each NIC device. It is responsible for the:
@@ -89,20 +99,39 @@ The SR method also requires a window that keeps track of the the frames sent. As
 The last layer is the application layer. This layer is the program that is using the network functions. The are no common protocols for this layer.
 The application was chosen for the intelligent sharing of the occupancy grid. This allows for all the safe guards of the lower layers to be used and allowing the program to be written in higher level code with more functionality. 
 
-\section{Method}
-This will outline the experiements taken and other important information about the thesis.
+
+\section{Chapter 4: The Implementation}
+The implementation was separated into two major logical parts to simplify the system and to allow for each section to be developed and tested individually. It also allows the shared memory communication to be used for multiple purposes not just limited to sharing between nodes.
+\subsection{Shared Memory Protocol}
+The shared memory protocol was designed to allow separate programs to shared data between them. The protocol was designed to allows for multiple senders to publish data to a shared data set which then could be access by multiple receivers. 
+The protocol creates a file in the local RAM. This file then allows for the "file" to be treated like a normal file using the read and write functions. This allows the implementation to use the benefits of the read and write system calls to optimise the writing to memory. The structure of the file is shown in the picture below:
+<SHARED MEMORY PICTURE>
+One of the major problems with multiple sources either writing or reading is the chance of data corruption. This is usually solved using mutex or synchronisation locks. This approach however requires significant overhead for small files. The solution chosen is implementing a circular buffer that minimises the chance of data corruption. This buffer array is ten times the size of the data structure being sent. The shared memory library has two built in counters that keep track of the next available read element and the next write element. When data is written to the shared memory library the read counter is updated to that element of the array, the write counter is incremented to the next element in the array. When read is called, the program requesting the data is given the pointer to the latest element. This pointer remain valid for nine writes. If the new data is written a new pointer will be given to any new programs wanting data. With a buffer array of size ten, the probability that the program will have the data overwritten while it is still reading the old element is negligible. The data section below illustrates the structure of the circular buffer.
+<SHARED MEMORY DATA>
+Each time read is called the program gets a new pointer to the latest data.
+The shared memory library is an efficient and reliable way to ensure communication between programs on the same platform. 
+This protocol allows the OG map to be shared to the network manager while also allowing many other programs to use the local OG Map (such as path planning programs).
+\subsection{Network}
+This will explain the network side of the 
 \newpage
-\section{Results}
-\subsection{Experimental Result}
+\section{Chapter 5: Experiments}
+\subsection{Experiment 1 - Shared Memory}
+This will outline the experiments
+\subsection{Experiment 2 - Timing}
+\newpage
+\section{Chapter 6: Results}
+\subsection{Experiment 1 - Shared Memory}
 This will be where i have the results of test
-\subsection{Discussion}
+\subsection{Experiment 2 - Timing}
+\newpage
+\section{Chapter 7: Discussion}
 This will be where the discussion about the efficiency is and what could have been done better
 \newpage
-\section{Conclusion}
+\section{Chapter 8: Future Work}
+This will be future work
+\newpage
+\section{Chapter 9: Conclusion}
 This will be the conclusion
 \newpage
 \section{Appendix}
-\subsection{Appendix I: Source Code}
-This is where i will put the source code
-
 \end{document}  

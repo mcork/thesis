@@ -8,7 +8,7 @@
  *
  *  Author: Matt Cork
  *  Created on: Sep 7, 2010
- *  Last Modified By: Matt Cork March 10,2011
+ *  Last Modified By: Matt Cork 10 Sept,2012
  *
  */
 
@@ -63,6 +63,11 @@ struct shmem_region
  
 	}
 
+	void status(int* EntryValues){
+		EntryValues[0]=read_entry_;
+		EntryValues[1]=write_entry_;
+	}
+	
 	T* read()
 	{
 		int error=-1;
