@@ -28,6 +28,8 @@ My abstract goes here...
 \addcontentsline{toc}{section}{Acknowledgements}
 \begin{abstract}
 Ackowledgements go here
+I would like to thank my supervisors Micheal Woods and Jose Guivant for their support and ideas to help complete. Also want to thank the mavstar team for giving me the platform/ develpoment boards.
+I would also like to thanks my friends at New College and in my Group for putting up with me.
 \end{abstract}
 \newpage
 \renewcommand\contentsname{Table of Contents}
@@ -101,18 +103,25 @@ The application was chosen for the intelligent sharing of the occupancy grid. Th
 
 
 \section{Chapter 4: The Implementation}
-The implementation was separated into two major logical parts to simplify the system and to allow for each section to be developed and tested individually. It also allows the shared memory communication to be used for multiple purposes not just limited to sharing between nodes.
+The implementation was separated into two major logical parts to simplify the system and to allow for each section to be developed and tested individually. The modular nature of this approach allows for both parts to be designed to increase the efficiency while keeping separate the different functionality. Another advantage of the modular approach is it allows the shared memory communication to be used as the major inter-process communication (IPC) for the system.
 \subsection{Shared Memory Protocol}
-The shared memory protocol was designed to allow separate programs to shared data between them. The protocol was designed to allows for multiple senders to publish data to a shared data set which then could be access by multiple receivers. 
-The protocol creates a file in the local RAM. This file then allows for the "file" to be treated like a normal file using the read and write functions. This allows the implementation to use the benefits of the read and write system calls to optimise the writing to memory. The structure of the file is shown in the picture below:
+The shared memory protocol was designed to allow separate programs to shared data sets between them.  One of the main design criteria for the shared memory communication protocol (SHM Protocol) was to allow multiple sources to publish their data while ensuring that corruption of data was minimised or eliminated. The other main design criteria was the SHM Protocol had to allow multiple receivers to read the latest data and minimise the chance of the data being read being corrupted by another set of data being written over it while it is being read. 
+The SHM Protocol starts by creating a file in the platforms local RAM with a particular name (eg "OG"). This "file" is then treated like a normal file allowing for the normal read and write functions to be used. For other people to read/write the data postedthe also need to know the "file" name. This libraries have built in optimisations that make writing to memory more efficient then developing my own memory read and write functions. The structure of this "file" is shown below
+\newline
 <SHARED MEMORY PICTURE>
-One of the major problems with multiple sources either writing or reading is the chance of data corruption. This is usually solved using mutex or synchronisation locks. This approach however requires significant overhead for small files. The solution chosen is implementing a circular buffer that minimises the chance of data corruption. This buffer array is ten times the size of the data structure being sent. The shared memory library has two built in counters that keep track of the next available read element and the next write element. When data is written to the shared memory library the read counter is updated to that element of the array, the write counter is incremented to the next element in the array. When read is called, the program requesting the data is given the pointer to the latest element. This pointer remain valid for nine writes. If the new data is written a new pointer will be given to any new programs wanting data. With a buffer array of size ten, the probability that the program will have the data overwritten while it is still reading the old element is negligible. The data section below illustrates the structure of the circular buffer.
+\newline
+The file starts with the checksum. This checksum is used when the a program initially connects to the shared memory file(shm file). The program initially checks to see if the checksum is set to "21289". If this checksum is set that means the file has been initialised by another program. If this value isn't set then the program is responsible to initialise the shared memory and set the initial variables.\newline
+The next part of the file is the read and write counter. Both counters are updated when write is called.\newline
+The last and biggest part of the structure is the "DATA" segment. This holds the actual data being communicated between the different programs.\newline
+One of the major problems with multiple sources reading from or writing to the same data set is the increase chance of corruption. One of the main solutions to this problem is using mutexes or synchronisation locks. Mutexes and synchronisation locks are mutually exclusive locks which prevents multiple people accessing the same file at the same time. This approach is unable to be used as for our purpose we want multiple people to read the data at the same time, while only one person writes at the same time. These approaches also require hardware support to be implemented properly. Due to the above reasons the shared memory protocol needed a different approach to minimise corruption of data. \newline
+The solution chosen for the shared memory protocol is using a circular buffer to store the data. The buffer implements an array which can hold ten different instances of the data structure being shared. The figure below shows the structure of the data segment of the shared memory.
+\newline
 <SHARED MEMORY DATA>
-Each time read is called the program gets a new pointer to the latest data.
-The shared memory library is an efficient and reliable way to ensure communication between programs on the same platform. 
-This protocol allows the OG map to be shared to the network manager while also allowing many other programs to use the local OG Map (such as path planning programs).
+\newline
+The counters included in the shared memory library (mentioned before) keep track of the next available write element of the array and the current read element. When data is written, the library updates the write counter to the next element of the array while the read counter is updated to the element that has just been written. When read is called, the program requesting data is given a pointer the the last element that was written. When data is written and the read pointer is updated, the old pointer is valid for the next nine writes and only upon the tenth write will the data be overwritten and the chance of corruption would happen. With the buffer size of ten the chance of the data being overwritten and corrupted it greatly reduced. The bigger the buffer is the smaller the chance of corruption, however the greater the buffer the more RAM is taken up in the platforms RAM. Each time read is called the update pointer will be given.\newline
+The shared memory protocol is an efficient way to communicate between programs on the platform. It allows multiple sources to write to the common data set without corruption while also allowing multiple sources to read the data. This protocol allows the OG to be shared to the network manager and the OG's sent over the network to this platform to the OG program. The protocol also ensures other programs such as path planning programs can also get the OG for its use. The shared memory protocol is also used as the major IPC communication on the platform for all programs. This is done by changing the name of the file.
 \subsection{Network}
-This will explain the network side of the 
+The network manager 
 \newpage
 \section{Chapter 5: Experiments}
 \subsection{Experiment 1 - Shared Memory}
