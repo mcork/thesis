@@ -11,7 +11,13 @@ int main(){
 	shmem_region<OG> OGMap("OG");
 	OG* myOG;
 	char update;
+	int EntryValues[2];
+	
 	while (1){
+		
+		OGMap.status(EntryValues);
+		printf("Read Entry: %d, Write Entry: %d\n",EntryValues[0],EntryValues[1]);
+		
 		myOG = OGMap.read();
 		update = fgetc(stdin);
 		printf("New OG Xval is %d\n",myOG->xVal);

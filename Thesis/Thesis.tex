@@ -7,13 +7,19 @@
 \usepackage{amssymb}
 \usepackage{epstopdf}				% TeX will automatically convert eps --> pdf in pdflatex		
 \usepackage{setspace}
+\usepackage{fancyvrb}
+\usepackage{float}
 
+
+\setcounter{secnumdepth}{-1}
 \doublespacing
+\DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
+\newfloat{Pseudo Code}{thp}{lof}
+
 
 \title{Efficient Wireless Adhoc Node to Node Occupancy Grid Sharing for Mobile Platforms in Urban Environments}
 \author{Matthew Cork}
 \date{}							% Activate to display a given date or no date
-
 
 
 \begin{document}
@@ -21,15 +27,32 @@
 \maketitle {}
 \newpage
 \begin{abstract}
+\addcontentsline{toc}{section}{Abstract}
 My abstract goes here...
-...
 \end{abstract}
 \newpage
-\tableofcontents
+\renewcommand{\abstractname}{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+\begin{abstract}
+Ackowledgements go here
+I would like to thank my supervisors Micheal Woods and Jose Guivant for their support and ideas to help complete. Also want to thank the mavstar team for giving me the platform/ develpoment boards.
+I would also like to thanks my friends at New College and in my Group for putting up with me.
+\end{abstract}
 \newpage
-\section{Background}
-%\subsection{}
+\renewcommand\contentsname{Table of Contents}
+\tableofcontents
+\addcontentsline{toc}{section}{Table of Contents}
+\newpage
+\listoffigures
 
+\addcontentsline{toc}{section}{List of Figures}
+\newpage
+\listoftables
+\addcontentsline{toc}{section}{List of Tables}
+\newpage
+\section{Chapter 1: Introduction}
+\newpage
+\section{Chapter 2: Literature Review}
 Occupancy Grid's (OG) are an important part of mapping while operating mobile platforms in a ever changing Urban environment. One of the major problems with mapping is the need for multiple devices to map simultaneously. This allows for a fastest and more accurate map to be created but creates a new set of problems. Some of these problems consist of an efficient way to shared the OG to ensure that all the mobile platforms have the same updated map and a lack of infrastructure for wireless communication.
 
 Adhoc networks were designed to eliminate the infrastructure requirements and allow for communication between the mobile platforms without the need of a base station.
@@ -44,11 +67,8 @@ Putta, Prasad, Ravilla, Nath and Chandra outlined the different algorithms used 
 
 Abdel-Hardy and Ward also tested the difference between the proactive protocol (OLSR) and the reactive protocols AODV and Dynamic Manet On Demand (DYMO). They tests include one video stream with five UDP data connections, one video stream with 50 UDP connections and multiple video streams. It the first test it was showed that the DYMO performed better than the AODV while OLSR performed the worse. The second case showed that the AODV was more efficient than the DYMO while both reactive protocols were more efficient than the OLSR. In both these test background data was introduced to measure the effect. For the last test they had multiple video sources transmitting data. This test was consistent with their early two test which showed that for smaller dynamic MANETS the DYMO was more efficient. This paper showed that in a constantly changing MANET the DYMO protocol was the most efficient method of communication for both single and multiple video streams.
 
-
-
-
 \newpage
-\section {Technical Report}
+\section {Chapter 3: Technical Report}
 Network communication can be achieved on five main network layers. These layers are the physical, datalink, Network, transport and the application. The transmission of data from the application layer is passed down, through the transport, network, datalink and then finally to the physical link. \newline
 The physical link is the only link that has a direct connection to another devices. This base link depends on the method used to connect the devices. This could be via copper, fibre or even wireless. The physical layer sends its data using electrical pulses and waves on the electromagnetic frequency. This is received by other wireless devices for communication. \newline
 The link layer sits above the physical layer. This layer is mostly implemented in the Network Interface Card (NIC). The NIC is the onboard hardware that handles the data passed  from the physical layer. The NIC uses the Message Authentication Code (MAC) protocol which gives a unique MAC address for each NIC device. It is responsible for the:
@@ -89,20 +109,73 @@ The SR method also requires a window that keeps track of the the frames sent. As
 The last layer is the application layer. This layer is the program that is using the network functions. The are no common protocols for this layer.
 The application was chosen for the intelligent sharing of the occupancy grid. This allows for all the safe guards of the lower layers to be used and allowing the program to be written in higher level code with more functionality. 
 
-\section{Method}
-This will outline the experiements taken and other important information about the thesis.
+
+<EXPLAIN SERVER CLIENT VS NODE>
+
+\section{Chapter 4: The Implementation}
+The implementation was separated into two major logical parts to simplify the system and to allow for each section to be developed and tested individually. The modular nature of this approach allows for both parts to be designed to increase the efficiency while keeping separate the different functionality. Another advantage of the modular approach is it allows the shared memory communication to be used as the major inter-process communication (IPC) for the system.
+\subsection{Shared Memory Protocol}
+The shared memory protocol was designed to allow separate programs to shared data sets between them.  One of the main design criteria for the shared memory communication protocol (SHM Protocol) was to allow multiple sources to publish their data while ensuring that corruption of data was minimised or eliminated. The other main design criteria was the SHM Protocol had to allow multiple receivers to read the latest data and minimise the chance of the data being read being corrupted by another set of data being written over it while it is being read. 
+The SHM Protocol starts by creating a file in the platforms local RAM with a particular name (eg "OG"). This "file" is then treated like a normal file allowing for the normal read and write functions to be used. For other people to read/write the data postedthe also need to know the "file" name. This libraries have built in optimisations that make writing to memory more efficient then developing my own memory read and write functions. The structure of this "file" is shown below
+\newline
+<SHARED MEMORY PICTURE>
+\newline
+The file starts with the checksum. This checksum is used when the a program initially connects to the shared memory file(shm file). The program initially checks to see if the checksum is set to "21289". If this checksum is set that means the file has been initialised by another program. If this value isn't set then the program is responsible to initialise the shared memory and set the initial variables.\newline
+The next part of the file is the read and write counter. Both counters are updated when write is called.\newline
+The last and biggest part of the structure is the "DATA" segment. This holds the actual data being communicated between the different programs.\newline
+One of the major problems with multiple sources reading from or writing to the same data set is the increase chance of corruption. One of the main solutions to this problem is using mutexes or synchronisation locks. Mutexes and synchronisation locks are mutually exclusive locks which prevents multiple people accessing the same file at the same time. This approach is unable to be used as for our purpose we want multiple people to read the data at the same time, while only one person writes at the same time. These approaches also require hardware support to be implemented properly. Due to the above reasons the shared memory protocol needed a different approach to minimise corruption of data. \newline
+The solution chosen for the shared memory protocol is using a circular buffer to store the data. The buffer implements an array which can hold ten different instances of the data structure being shared. The figure below shows the structure of the data segment of the shared memory.
+\newline
+<SHARED MEMORY DATA>
+\newline
+The counters included in the shared memory library (mentioned before) keep track of the next available write element of the array and the current read element. When data is written, the library updates the write counter to the next element of the array while the read counter is updated to the element that has just been written. When read is called, the program requesting data is given a pointer the the last element that was written. When data is written and the read pointer is updated, the old pointer is valid for the next nine writes and only upon the tenth write will the data be overwritten and the chance of corruption would happen. With the buffer size of ten the chance of the data being overwritten and corrupted it greatly reduced. The bigger the buffer is the smaller the chance of corruption, however the greater the buffer the more RAM is taken up in the platforms RAM. Each time read is called the update pointer will be given.\newline
+The shared memory protocol is an efficient way to communicate between programs on the platform. It allows multiple sources to write to the common data set without corruption while also allowing multiple sources to read the data. This protocol allows the OG to be shared to the network manager and the OG's sent over the network to this platform to the OG program. The protocol also ensures other programs such as path planning programs can also get the OG for its use. The shared memory protocol is also used as the major IPC communication on the platform for all programs. This is done by changing the name of the file.
+\subsection{Network}
+The network manager was written on the application layer to allow for communication between the various platforms. The program was written as a node style instead of the server-client style as all nodes need to send a receive periodically. This system is superior to the server-client style as once the connection is established the data can be sent both ways across the channel without the need for a second connection. The node is based on the following pseudocode:
+\newline
+\begin{figure}[htbp]
+	\centering
+	\begin{code}
+	    start listening on port
+	    connect to host
+	    loop forever
+ 	    broadcast alive message
+	    check for received data
+	    if newRecvData {
+	   	sync with local OG(using shared memory)
+	    }
+	    check to see if new data to send
+	    if newData {
+	  	send New Data
+	    }
+	\end{code}
+	\caption {Pseudo Code: Network Node Implementation}
+\end {figure}
+The protocol was designed to have a initial listening port that all nodes try to connect to each other on. This allows all nodes to only ever need to try one port number to establish a connection. When a connection is detect, the listen port passes the connection data to another port number. This other port accepts the connection and establishes the two way pipeline to the other node. This approach make the protocol more dynamic and can mean greater number of connections for each node.
+After the connection is establish the program then checks to see if new data has been sent over the adhoc network. The TCP connection allows the user to specify a few different options to determine if there is data. These methods are blocking, polling and non-blocking. \newline
+Blocking is a method which only returns from the system call when data has been received. This is very useful if data is constantly expected and you can either guarantee the data will be there or if you only want to continue when the data is there. The main disadvantages of this approach is that it will lock up the program and stop it from completing and other tasks until it receives data.
+Polling is a way to check the socket connection to see if data has been stored in the buffer since it was last read. This can be a good method when you are expecting data intermittently and constantly opening and closing the connection. However the major disadvantage is that the system call will block if the connection is still open but no data is being sent over it. IT is mainly used when the connection is constantly established and disconnected. For our approach the only solution that would work is using the non-blocking approach. This approach checks the connection and either returns the data being sent or returns an error code. This major disadvantage with approach is that the node needs to do all the error checking and error-handling itself. The node program checks the return value of the receive system call and handles it appropriately. If data is found, it is then written to the shared memory for the OG implementation to deal with. If the connection has been disconnected from the remote end, then the program would disconnect the socket and wait for another connection. If the connection is still established but no data has been sent through then the nodes skips the writing to shared memory step.
+Once the data has been sent 
+
 \newpage
-\section{Results}
-\subsection{Experimental Result}
+\section{Chapter 5: Experiments}
+\subsection{Experiment 1 - Shared Memory}
+This will outline the experiments
+\subsection{Experiment 2 - Timing}
+\newpage
+\section{Chapter 6: Results}
+\subsection{Experiment 1 - Shared Memory}
 This will be where i have the results of test
-\subsection{Discussion}
+\subsection{Experiment 2 - Timing}
+\newpage
+\section{Chapter 7: Discussion}
 This will be where the discussion about the efficiency is and what could have been done better
 \newpage
-\section{Conclusion}
+\section{Chapter 8: Future Work}
+Some of the future work to increase efficiency is design the network manager to operator on the link layer. This would allow for the data throughput to be much greater as it doesn't require going through all the other levels. It would require you writing your own layers above. Due to the known network state of the platforms the layers above the link wouldn't need to be as complicated as normal as they only need to deal with known data and the link layer can use the MAC address protocol to differentiate between nodes.
+\newpage
+\section{Chapter 9: Conclusion}
 This will be the conclusion
 \newpage
 \section{Appendix}
-\subsection{Appendix I: Source Code}
-This is where i will put the source code
-
 \end{document}  

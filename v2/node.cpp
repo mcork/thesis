@@ -13,7 +13,7 @@
 #define SERVER "6000"
 #define NUMCON 1
 #define DEBUGMODE 1	// shows error messages on stdout to allow for debugging
-#define IPADDR "192.168.1.10"	// can't use loopback anymore as clases will happen with node recv and send
+#define IPADDR "192.168.91.136"	// can't use loopback anymore as clases will happen with node recv and send
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -116,8 +116,10 @@ int SendMessage(void *message, int messageSize, int socketFd);
 		inet_ntop(theirAddr.ss_family,get_in_addr((struct sockaddr *)&theirAddr),connectedIP, sizeof connectedIP);
 		if (DEBUGMODE == 1)printf("server: got connection from %s on %d\n", connectedIP,ServerSockFd);
 		while(1){
-			// Broadcast Alive Message
-
+			// implement check to see if client is connected otherwise call connect again
+//			if recvSock doesn't exist {
+//				connect(recvSock, (struct sockaddr *)&recvDest, sizeof(struct sockaddr));
+//			}
 	/**************** READ INCOMING MESSAGES FROM OTHERS *********************************/
 			// Need to read data in and deal with it
 			readCheck=recv(recvSock, &messageRecv,sizeof(messageRecv),MSG_DONTWAIT);
