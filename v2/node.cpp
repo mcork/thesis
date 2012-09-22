@@ -13,7 +13,7 @@
 #define SERVER "6000"
 #define NUMCON 1
 #define DEBUGMODE 1	// shows error messages on stdout to allow for debugging
-#define IPADDR "127.0.0.1"	// can't use loopback anymore as clases will happen with node recv and send
+#define IPADDR "192.168.1.10"	// can't use loopback anymore as clases will happen with node recv and send
 
 #include <stdio.h>
 #include <stdlib.h>
