@@ -68,16 +68,17 @@ struct shmem_region
 
 	void status(int* EntryValues){
 		EntryValues[0]=*checksum_;
-		EntryValues[1]=*read_entry_;
-		EntryValues[2]=*write_entry_;
+		EntryValues[1]=*read_entry_-1;
+		EntryValues[2]=*write_entry_-1;
 
 	}
-	
+
 	T* read()
 	{
 		int error=-1;
 		if (*read_entry_ == 0){
-			return (T*)error;
+//			return (T*)(BUFFER_SIZE +1);;
+			return (T*)-1;
 		}
 		return &buffer_[*read_entry_-1].item;			// returns the item in the buffer
 	}
