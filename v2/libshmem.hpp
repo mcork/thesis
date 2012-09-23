@@ -15,8 +15,6 @@
 
 /*
  *
- * Error Message: If read is called without write having being called returns -1
- *
  * NOTE: Doesn't work for large shared memory
  *
  */
@@ -65,6 +63,11 @@ struct shmem_region
 		}
  
 	}
+/*
+ *	Allows for checking the current read and write values as well as checksum value
+ *
+ */
+
 
 	void status(int* EntryValues){
 		EntryValues[0]=*checksum_;
@@ -73,11 +76,14 @@ struct shmem_region
 
 	}
 
+/*
+ *	Error Checking: Returns -1;
+ *	to compare need to type cast as int* and check against -1 
+ */
 	T* read()
 	{
 		int error=-1;
 		if (*read_entry_ == 0){
-//			return (T*)(BUFFER_SIZE +1);;
 			return (T*)-1;
 		}
 		return &buffer_[*read_entry_-1].item;			// returns the item in the buffer
