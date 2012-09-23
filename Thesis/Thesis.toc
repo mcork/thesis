@@ -9,13 +9,13 @@
 \contentsline {section}{Chapter 4: The Implementation}{17}
 \contentsline {subsection}{Shared Memory Protocol}{17}
 \contentsline {subsection}{Network}{19}
-\contentsline {section}{Chapter 5: Experiments}{21}
-\contentsline {subsection}{Experiment 1 - Shared Memory}{21}
-\contentsline {subsection}{Experiment 2 - Timing}{21}
-\contentsline {section}{Chapter 6: Results}{22}
+\contentsline {section}{Chapter 5: Experiments}{22}
 \contentsline {subsection}{Experiment 1 - Shared Memory}{22}
 \contentsline {subsection}{Experiment 2 - Timing}{22}
-\contentsline {section}{Chapter 7: Discussion}{23}
-\contentsline {section}{Chapter 8: Future Work}{24}
-\contentsline {section}{Chapter 9: Conclusion}{25}
-\contentsline {section}{Appendix}{26}
+\contentsline {section}{Chapter 6: Results}{23}
+\contentsline {subsection}{Experiment 1 - Shared Memory}{23}
+\contentsline {subsection}{Experiment 2 - Timing}{23}
+\contentsline {section}{Chapter 7: Discussion}{24}
+\contentsline {section}{Chapter 8: Future Work}{25}
+\contentsline {section}{Chapter 9: Conclusion}{26}
+\contentsline {section}{Appendix}{27}

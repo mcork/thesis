@@ -1,5 +1,5 @@
 /*
- * libshmem.hpp (version 3.0)
+ * libshmem.hpp (version 4.0)
  *
  *  This is a shared memory designed for use in the MAVStar '11 project at University of New South Wales. It uses a circular buffer to emulate
  *  synchornisation. The buffer size is recommended to be greater than or equal to 10
@@ -52,28 +52,33 @@ struct shmem_region
 		ftruncate(fd_,buffer_size_);
 		const void* m = mmap(0, buffer_size_, PROT_READ | PROT_WRITE, MAP_SHARED, fd_, 0);
 
-		read_entry_ = (int*)m;
-		write_entry_ = (int*)m + sizeof(int);
-		buffer_= (shmem_item<T>*)((int*)m+sizeof(int)*2);
+		checksum_=(int*)m;
+		read_entry_ = (int*)m+sizeof(int);
+		write_entry_ = (int*)m + sizeof(int)*2;
+		buffer_= (shmem_item<T>*)((int*)m+sizeof(int)*3);
 
 		// check to see if read/write are initialize
-		if (*read_entry_ == 0) {
+		if (*checksum_ != 230912){
+			*checksum_ = 230912;
 			*write_entry_ = 1;
+			*read_entry_= 0;
 		}
  
 	}
 
 	void status(int* EntryValues){
-		EntryValues[0]=read_entry_;
-		EntryValues[1]=write_entry_;
+		EntryValues[0]=*checksum_;
+		EntryValues[1]=*read_entry_;
+		EntryValues[2]=*write_entry_;
+
 	}
 	
 	T* read()
 	{
 		int error=-1;
-//		if (*read_entry_ == 0){
-//			return (T*)error;
-//		}
+		if (*read_entry_ == 0){
+			return (T*)error;
+		}
 		return &buffer_[*read_entry_-1].item;			// returns the item in the buffer
 	}
 
@@ -99,6 +104,7 @@ private:
 	shmem_item<T>* buffer_;
 	int* read_entry_;
 	int* write_entry_;
+	int* checksum_;
 };
 
 
