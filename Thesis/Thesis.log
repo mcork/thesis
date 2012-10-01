@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  1 OCT 2012 17:03
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  1 OCT 2012 17:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -310,8 +310,12 @@ Overfull \hbox (8.53766pt too wide) in paragraph at lines 234--235
  [][] 
  []
 
-[28 <./Figures/BufferSize1.jpg>]
-<Figures/BufferSize2.jpg, id=99, 641.39626pt x 376.40625pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 237--239
+
+ []
+
+<Figures/BufferSize2.jpg, id=96, 641.39626pt x 376.40625pt>
 File: Figures/BufferSize2.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize2.jpg>
@@ -322,51 +326,72 @@ Overfull \hbox (8.53766pt too wide) in paragraph at lines 242--243
  [][] 
  []
 
+[28 <./Figures/BufferSize1.jpg>]
 <Figures/BufferSize3.jpg, id=100, 639.38875pt x 376.40625pt>
 File: Figures/BufferSize3.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize3.jpg>
-Package pdftex.def Info: Figures/BufferSize3.jpg used on input line 248.
+Package pdftex.def Info: Figures/BufferSize3.jpg used on input line 249.
 (pdftex.def)             Requested size: 426.79134pt x 251.25468pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 248--249
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 249--250
  [][] 
  []
 
-<Figures/BufferSize4.jpg, id=101, 636.3775pt x 373.395pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 245--251
+
+ []
+
+[29 <./Figures/BufferSize2.jpg>]
+<Figures/BufferSize4.jpg, id=104, 636.3775pt x 373.395pt>
 File: Figures/BufferSize4.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize4.jpg>
-Package pdftex.def Info: Figures/BufferSize4.jpg used on input line 254.
+Package pdftex.def Info: Figures/BufferSize4.jpg used on input line 256.
 (pdftex.def)             Requested size: 426.79134pt x 250.41833pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 254--255
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 256--257
  [][] 
  []
 
-<Figures/BufferSize5.jpg, id=102, 635.37375pt x 367.3725pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 252--258
+
+ []
+
+[30 <./Figures/BufferSize3.jpg>] [31 <./Figures/BufferSize4.jpg>]
+<Figures/BufferSize5.jpg, id=112, 635.37375pt x 367.3725pt>
 File: Figures/BufferSize5.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize5.jpg>
-Package pdftex.def Info: Figures/BufferSize5.jpg used on input line 260.
+Package pdftex.def Info: Figures/BufferSize5.jpg used on input line 264.
 (pdftex.def)             Requested size: 426.79134pt x 246.77733pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 260--261
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 264--265
  [][] 
  []
 
-[29 <./Figures/BufferSize2.jpg>] [30 <./Figures/BufferSize3.jpg> <./Figures/Buf
-ferSize4.jpg>] [31 <./Figures/BufferSize5.jpg>] [32] [33]
-Underfull \hbox (badness 10000) in paragraph at lines 276--279
+File: Figures/BufferSize1.jpg Graphic file (type jpg)
+<use Figures/BufferSize1.jpg>
+Package pdftex.def Info: Figures/BufferSize1.jpg used on input line 270.
+(pdftex.def)             Requested size: 426.79134pt x 248.74352pt.
+
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 270--271
+ [][] 
+ []
+
+[32 <./Figures/BufferSize5.jpg>] [33] [34] [35] [36]
+Underfull \hbox (badness 10000) in paragraph at lines 286--289
 
  []
 
-[34] [35] [36] (./Thesis.aux) ) 
+[37] [38] [39] (./Thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 2817 strings out of 493488
- 40764 string characters out of 3141326
+ 2818 strings out of 493488
+ 40774 string characters out of 3141326
  105401 words of memory out of 3000000
- 6070 multiletter control sequences out of 15000+200000
+ 6071 multiletter control sequences out of 15000+200000
  13179 words of font info for 51 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  42i,6n,24p,1036b,281s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -378,10 +403,10 @@ ic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public
 /amsfonts/cm/cmr17.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmsy10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmtt10.pfb>
-Output written on Thesis.pdf (36 pages, 588470 bytes).
+Output written on Thesis.pdf (39 pages, 589669 bytes).
 PDF statistics:
- 153 PDF objects out of 1000 (max. 8388607)
- 101 compressed objects within 2 object streams
+ 165 PDF objects out of 1000 (max. 8388607)
+ 110 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
