@@ -109,7 +109,8 @@ The SR method also requires a window that keeps track of the the frames sent. As
 The last layer is the application layer. This layer is the program that is using the network functions. The are no common protocols for this layer.
 The application was chosen for the intelligent sharing of the occupancy grid. This allows for all the safe guards of the lower layers to be used and allowing the program to be written in higher level code with more functionality. 
 \newline
-Most networking is based on two main types of connection; server-client connections and node based connections. The server client method is one source
+Most networking is based on two main types of connection; server-client connections and node based connections. The server client method is the first main type. This type involves a centralised server that has all the information. The clients then connect to this server and request the information from it. It is usually used when their are few sources of information but many clients. This approach allows for multiple clients to get the same data easily as they know exactly where the source is. This approach fails when a platform needs to be both a client and a source.\newline
+The second main connection is a node to node based communication style. Node communication is a manager that performs as both a server and client in one program. It requires having a constantly listening port that is used to receive connection requests. Once a request is received then the program establishes connection on another port for communication between the platforms. This approach allows for two way communication between the platforms. The lower network layers handle the connection to ensure that both nodes don’t send at the same time. This connection is used when the both platforms need to communicate information to each other. Node to node connection also performs better than server-client when the number of sources and number of client are similar. The node connection doesn’t always need to be both sending and receiving data but is always capable of the functionality.
 \newpage
 \section{Chapter 4: The Implementation}
 The implementation was separated into two major logical parts to simplify the system and to allow for each section to be developed and tested individually. The modular nature of this approach allows for both parts to be designed to increase the efficiency while keeping separate the different functionality. Another advantage of the modular approach is it allows the shared memory communication to be used as the major inter-process communication (IPC) for the system.
@@ -129,6 +130,7 @@ The solution chosen for the shared memory protocol is using a circular buffer to
 \newline
 The counters included in the shared memory library (mentioned before) keep track of the next available write element of the array and the current read element. When data is written, the library updates the write counter to the next element of the array while the read counter is updated to the element that has just been written. When read is called, the program requesting data is given a pointer the the last element that was written. When data is written and the read pointer is updated, the old pointer is valid for the next nine writes and only upon the tenth write will the data be overwritten and the chance of corruption would happen. With the buffer size of ten the chance of the data being overwritten and corrupted it greatly reduced. The bigger the buffer is the smaller the chance of corruption, however the greater the buffer the more RAM is taken up in the platforms RAM. Each time read is called the update pointer will be given.\newline
 The shared memory protocol is an efficient way to communicate between programs on the platform. It allows multiple sources to write to the common data set without corruption while also allowing multiple sources to read the data. This protocol allows the OG to be shared to the network manager and the OG's sent over the network to this platform to the OG program. The protocol also ensures other programs such as path planning programs can also get the OG for its use. The shared memory protocol is also used as the major IPC communication on the platform for all programs. This is done by changing the name of the file.
+\newpage
 \subsection{Network}
 The network manager was written on the application layer to allow for communication between the various platforms. The program was written as a node style instead of the server-client style as all nodes need to send a receive periodically. This system is superior to the server-client style as once the connection is established the data can be sent both ways across the channel without the need for a second connection. The node is based on the following pseudocode:
 \newline
@@ -161,38 +163,67 @@ For our approach the only solution that would work is using the non-blocking app
 \subsection{Experiment 1 - Shared Memory}
 The shared memory implementation is a way to minimise the chance of corruption of the shared buffer using a circular buffer. The corruption is caused by one program over writing the data currently being read. This means the program reading gets partially old data and partially new data which is the corruption. The shared memory experiments are separate into two stages to testing. \newline
 \subsubsection{Experiment 1.1 - Benchmarking Shared Memory}
-There is currently no benchmark for the size of data which corruption is reliable. The first experiment was to test structures of different sizes with a circular buffer of size one. The purpose of this experiment was to show at what size corruption first occurs and to develop a benchmark to determine the size that corruption reliably occurs. This benchmark allows comparison to be made.\newline
-The experiment is consist of two programs accessing the shared memory. The first program will be changing the array and writing it to shared memory. The other program will be reading from shared memory and checking that all the contents are the same integer.\newline
+There is currently no benchmark for the size of data shared through the shared memory to determine at what size the corruption is reliable. The first experiment was designed to test structures of different sizes with no multiple data slots for the circular buffer (i.e circular buffer size was one). The purpose of the experiment was to show the size at which corruption first occurs and to develop a benchmark in which data corruption reliably occurs. Using the benchmark allows for future comparison to be made.\newlineThe experiment consist of two program accessing the shared memory. The first program was responsible for writing an array of single integers into the shared memory. \begin{figure}[htbp]\centering\begin{code}	set integer initial value	loop forever{		set all elements of array to integer		write to share memory	}\end{code}\caption {Pseudo Code: Write program for Shared Memory Testing}\end{figure}Two instances of this program are used to write different values to the shared memory.\newlineThe second program was reading the value from shared memory and determining if the data had been corruption. \begin{figure}[htbp]\centering\begin{code}	loop forever{		read from shared memory		check array for corruption	}\end{code}\caption {Pseudo Code: Read program for Shared Memory Testing}\end{figure}\newlineCorruption will be determined by checking the all the values of the array and if the integers aren’t all the same the data was corrupted. The method to obtain the benchmark is outline below.
+\newline
 \underline {\bf Method}
 \begin{enumerate}
 \item Change Array Size
-\item Run Both Programs
-\item Monitor Output to check if corruption
+\item Run Both Write Programs and Read Program\item Monitor Output to check if corruption
 \item Repeat Steps 1-3 until corruption exists
 \end {enumerate}
-\subsubsection{Experiment 1.2 - Circular Buffer Size}
-The second experiment relies on the benchmark obtained in the first experiment to compare the chance of corruption by varying the sizes of the circular buffer. This purpose of the experiment is to prove that the circular buffer can minimise or eliminate the corruption of data and to obtain a reliable circular buffer size for all inter-process communication.\newline
-The experiment will start of using an array the size determined in experiment 1.1 as the benchmarking value. The testing procedure will be similar to the method used in experiment 1.1. The circular buffer size will be increased and the test re-run. The experiment will be repeated until the test shows that the corruption has been minimised of eliminated completely.\newline
-\underline {\bf Method}
-\begin{enumerate}
-\item Change Array Size to benchmark size
-\item Change Circular Buffer Size
-\item Run Both Programs
-\item Monitor Output to check if corruption
-\item Repeat Steps 2-4 until corruption disappears
-\end {enumerate}
-\subsection{Experiment 2 - Timing}
+\newpage
+\subsubsection{Experiment 1.2 - Circular Buffer Size}The second experiment relies on the benchmark obtained in the first experiment to compare the chance of corruption by varying the sizes of the circular buffer. This purpose of the experiment is to prove that the circular buffer can minimise or eliminate the corruption of data and to obtain a reliable circular buffer size for all inter-process communication.\newlineThe experiment will start of using an array the size determined in experiment 1.1 as the benchmarking value. The testing procedure will be similar to the method used in experiment 1.1. The circular buffer size will be increase and the tests re-run until the corruption is minimised or eliminated completely.\newline\underline {\bf Method}\begin{enumerate}\item Set Array Size to benchmark size\item Change Circular Buffer Size\item Run Both Write Programs and Read Program\item Monitor Output to check if corruption\item Repeat Steps 2-4 until corruption disappears\end {enumerate}\newpage
+\subsubsection{Experiment 1.3 - Circular Buffer Size with Multiple Writers}The third part of experiment 1 is to confirm that at the "safe" recommended value the data isn't corrupted by the multiple writers and to ensure that the circular buffer internal values are being updated correctly. To assist with this test, a status function was added to export the current status including the checksum. The test will be used to ensure that the values
+\underline {\bf Method}\begin{enumerate}\item Set Array Size to benchmark size\item Set Circular Buffer Size to "safe" size\item Run Read Program and 10 write programs\item Monitor Output to check if corruption\item Monitor Circular Buffer Status to ensure Updating happens 
+\end {enumerate}\newpage
+\subsection{Experiment 2 - Network Node Timing}
 Experiment 2 is designed to test the overall timing of the approach. The experiment involves creating a change in the OG and time stamping this change. This is then written into shared memory. Once this change has been propagated through the network to the next node, the time is then checked and a comparison of time is printed to file. Both computers clocks will be synced using the linux ntp server to ensure accuracy. To minimise errors twenty changes will be made and timing will be averaged over each testing set.  This experiment will then be repeated multiple times to confirm and validate the timing. This will give an approximate timing for the operation of the entire sharing process which will help in determining the maximum number of connections available at a single time.
 \newpage
 \section{Chapter 6: Results}
 \subsection{Experiment 1 - Shared Memory}
 \subsubsection{Experiment 1.1 - Benchmarking Shared Memory}
-This will be where i have the results of test
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=150mm]{Figures/BufferSize1.jpg}
+\caption {Results of Experiment 1.1 - Benchmark}
+\end{figure}
+From Figure 4, We can see that corruption began when the the array size has 300000 elements in size. It also showed that in the graph that at 500000 the data corruption was only 40\% of tests. Arrays with number of elements greater than 500000 caused segmentation faults for the program (memory out of bounds). The benchmark determined by the test thus is array size of 500000. This was then used in experiment 1.2.
+\newpage
 \subsubsection{Experiment 1.2 - Circular Buffer Size}
-\subsection{Experiment 2 - Timing}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=150mm]{Figures/BufferSize2.jpg}
+\caption {Results of Experiment 1.2 - Buffer Size = 2}
+\end{figure}
+The results show that the implement of just a circular buffer of two reduced chance of the corruption down to 10\%.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=150mm]{Figures/BufferSize3.jpg}
+\caption {Results of Experiment 1.2 - Buffer Size = 3}
+\end{figure}
+The result of the third test show that a buffer size of 3 further reduced the chance of corruption of the data. This test showed that only 5\% of the tests showed data corruption.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=150mm]{Figures/BufferSize4.jpg}
+\caption {Results of Experiment 1.2 - Buffer Size = 4}
+\end{figure}
+These results were obtained with a circular buffer of size 4. The graph shows that data corruption didn't happen for any of the test that were ran.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=150mm]{Figures/BufferSize5.jpg}
+\caption {Results of Experiment 1.3 - Buffer Size = 5}
+\end{figure}
+The results of this test confirmed that for sizes greater than 4, the data still remains corruption free with more than two writing to the shared memory. This also showed that the shared memory was updating as expected.
+\newpage
+\subsection{Experiment 2 - Network Node Timing}
 \newpage
 \section{Chapter 7: Discussion}
-This will be where the discussion about the efficiency is and what could have been done better
+This will be where i discuss the whole approach
+\subsection{7.1 - Shared Memory}
+This is where i will discuss the shared memory
+\newpage
+\subsection{7.2 - Network Node Timing}
+This is where i will discuss the networking part
 \newpage
 \section{Chapter 8: Future Work}
 All though this approach has been shown to be viable to share the OG data there are ways that the efficiency could be increased. One of the ways to increase the efficiency of network manager would be to translate it to be written on the link layer instead of the application layer. \newline
