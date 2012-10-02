@@ -1,4 +1,4 @@
-#include "random.h"
+#include "OG.h"
 #include "libshmem.hpp"
 #include <stdio.h>
 #include <iostream>
@@ -7,18 +7,36 @@
 
 using namespace std;
 
+void fillArray(int* array, int count);
+void displayArray(int* array);
+
 int main(){
 	shmem_region<OG> OGMap("OG");
 	OG myOG;
-	int update;
-	myOG.value = 0;
+	int count=0;
 	OGMap.write(myOG);
-	printf("Initial Values\nxVal - %d, yVal - %d, zVal - %d\n",myOG.xVal,myOG.yVal,myOG.zVal);
 	while (1){
 		// Enter User Values
-		update = fgetc(stdin);
-		myOG.value ++;
+		fillArray(myOG.value, count);
+		cout << "--- DATA GOING IN --- count = " << count << endl;
+		displayArray(myOG.value);
+		// Write to shared memory
 		OGMap.write(myOG);
+		count++;
+		sleep(1);
 	}
 	return 0;
+}
+
+void displayArray(int* array){
+	for (int i=0; i<OGSIZE; i++){
+		cout << array[i];
+	}
+	cout << endl;
+}
+
+void fillArray(int* array, int count){
+	for (int i=0; i<OGSIZE; i++){
+		array[i]= count;
+	}
 }
