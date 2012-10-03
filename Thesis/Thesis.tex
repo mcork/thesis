@@ -17,7 +17,7 @@
 \newfloat{Pseudo Code}{thp}{lof}
 
 
-\title{Efficient Wireless Adhoc Node to Node Occupancy Grid Sharing for Mobile Platforms in Urban Environments}
+\title{Intelligent Sharing of Occupancy Grids over wireless Adhoc networks on mobile platforms in urban environments}
 \author{Matthew Cork}
 \date{}							% Activate to display a given date or no date
 
@@ -35,7 +35,7 @@ My abstract goes here...
 \addcontentsline{toc}{section}{Acknowledgements}
 \begin{abstract}
 Ackowledgements go here
-I would like to thank my supervisors Micheal Woods and Jose Guivant for their support and ideas to help complete. Also want to thank the mavstar team for giving me the platform/ develpoment boards.
+I would like to thank my supervisors Mr Micheal Woods and Dr Jose Guivant for their support and ideas to help complete. Also want to thank the mavstar team for giving me the platform/ develpoment boards.
 I would also like to thanks my friends at New College and in my Group for putting up with me.
 \end{abstract}
 \newpage
@@ -46,9 +46,6 @@ I would also like to thanks my friends at New College and in my Group for puttin
 \listoffigures
 
 \addcontentsline{toc}{section}{List of Figures}
-\newpage
-\listoftables
-\addcontentsline{toc}{section}{List of Tables}
 \newpage
 \section{Chapter 1: Introduction}
 \newpage
@@ -117,17 +114,21 @@ The implementation was separated into two major logical parts to simplify the sy
 \subsection{Shared Memory Protocol}
 The shared memory protocol was designed to allow separate programs to shared data sets between them.  One of the main design criteria for the shared memory communication protocol (SHM Protocol) was to allow multiple sources to publish their data while ensuring that corruption of data was minimised or eliminated. The other main design criteria was the SHM Protocol had to allow multiple receivers to read the latest data and minimise the chance of the data being read being corrupted by another set of data being written over it while it is being read. 
 The SHM Protocol starts by creating a file in the platforms local RAM with a particular name (eg "OG"). This "file" is then treated like a normal file allowing for the normal read and write functions to be used. For other people to read/write the data postedthe also need to know the "file" name. This libraries have built in optimisations that make writing to memory more efficient then developing my own memory read and write functions. The structure of this "file" is shown below
-\newline
-<SHARED MEMORY PICTURE>
-\newline
+\begin{figure}[H]
+\centering
+\includegraphics[width=150mm]{Figures/BufferSize1.jpg}
+\caption{Shared Memory Structure}
+\end{figure}
 The file starts with the checksum. This checksum is used when the a program initially connects to the shared memory file(shm file). The program initially checks to see if the checksum is set to "21289". If this checksum is set that means the file has been initialised by another program. If this value isn't set then the program is responsible to initialise the shared memory and set the initial variables.\newline
 The next part of the file is the read and write counter. Both counters are updated when write is called.\newline
 The last and biggest part of the structure is the "DATA" segment. This holds the actual data being communicated between the different programs.\newline
 One of the major problems with multiple sources reading from or writing to the same data set is the increase chance of corruption. One of the main solutions to this problem is using mutexes or synchronisation locks. Mutexes and synchronisation locks are mutually exclusive locks which prevents multiple people accessing the same file at the same time. This approach is unable to be used as for our purpose we want multiple people to read the data at the same time, while only one person writes at the same time. These approaches also require hardware support to be implemented properly. Due to the above reasons the shared memory protocol needed a different approach to minimise corruption of data. \newline
 The solution chosen for the shared memory protocol is using a circular buffer to store the data. The buffer implements an array which can hold ten different instances of the data structure being shared. The figure below shows the structure of the data segment of the shared memory.
-\newline
-<SHARED MEMORY DATA>
-\newline
+\begin{figure}[H]
+\centering
+\includegraphics[width=150mm]{Figures/BufferSize1.jpg}
+\caption{Shared Memory Data}
+\end{figure}
 The counters included in the shared memory library (mentioned before) keep track of the next available write element of the array and the current read element. When data is written, the library updates the write counter to the next element of the array while the read counter is updated to the element that has just been written. When read is called, the program requesting data is given a pointer the the last element that was written. When data is written and the read pointer is updated, the old pointer is valid for the next nine writes and only upon the tenth write will the data be overwritten and the chance of corruption would happen. With the buffer size of ten the chance of the data being overwritten and corrupted it greatly reduced. The bigger the buffer is the smaller the chance of corruption, however the greater the buffer the more RAM is taken up in the platforms RAM. Each time read is called the update pointer will be given.\newline
 The shared memory protocol is an efficient way to communicate between programs on the platform. It allows multiple sources to write to the common data set without corruption while also allowing multiple sources to read the data. This protocol allows the OG to be shared to the network manager and the OG's sent over the network to this platform to the OG program. The protocol also ensures other programs such as path planning programs can also get the OG for its use. The shared memory protocol is also used as the major IPC communication on the platform for all programs. This is done by changing the name of the file.
 \newpage
@@ -163,21 +164,69 @@ For our approach the only solution that would work is using the non-blocking app
 \subsection{Experiment 1 - Shared Memory}
 The shared memory implementation is a way to minimise the chance of corruption of the shared buffer using a circular buffer. The corruption is caused by one program over writing the data currently being read. This means the program reading gets partially old data and partially new data which is the corruption. The shared memory experiments are separate into two stages to testing. \newline
 \subsubsection{Experiment 1.1 - Benchmarking Shared Memory}
-There is currently no benchmark for the size of data shared through the shared memory to determine at what size the corruption is reliable. The first experiment was designed to test structures of different sizes with no multiple data slots for the circular buffer (i.e circular buffer size was one). The purpose of the experiment was to show the size at which corruption first occurs and to develop a benchmark in which data corruption reliably occurs. Using the benchmark allows for future comparison to be made.\newlineThe experiment consist of two program accessing the shared memory. The first program was responsible for writing an array of single integers into the shared memory. \begin{figure}[htbp]\centering\begin{code}	set integer initial value	loop forever{		set all elements of array to integer		write to share memory	}\end{code}\caption {Pseudo Code: Write program for Shared Memory Testing}\end{figure}Two instances of this program are used to write different values to the shared memory.\newlineThe second program was reading the value from shared memory and determining if the data had been corruption. \begin{figure}[htbp]\centering\begin{code}	loop forever{		read from shared memory		check array for corruption	}\end{code}\caption {Pseudo Code: Read program for Shared Memory Testing}\end{figure}\newlineCorruption will be determined by checking the all the values of the array and if the integers aren’t all the same the data was corrupted. The method to obtain the benchmark is outline below.
+There is currently no benchmark for the size of data shared through the shared memory to determine at what size the corruption is reliable. The first experiment was designed to test structures of different sizes with no multiple data slots for the circular buffer (i.e circular buffer size was one). The purpose of the experiment was to show the size at which corruption first occurs and to develop a benchmark in which data corruption reliably occurs. Using the benchmark allows for future comparison to be made.\newline
+The experiment consist of two program accessing the shared memory. The first program was responsible for writing an array of single integers into the shared memory. 
+\begin{figure}[htbp]
+\centering
+\begin{code}
+	set integer initial value
+	loop forever{
+		set all elements of array to integer
+		write to share memory
+	}
+\end{code}
+\caption {Pseudo Code: Write program for Shared Memory Testing}
+\end{figure}
+Two instances of this program are used to write different values to the shared memory.
+\newline
+The second program was reading the value from shared memory and determining if the data had been corruption. 
+\begin{figure}[htbp]
+\centering
+\begin{code}
+	loop forever{
+		read from shared memory
+		check array for corruption
+	}
+\end{code}
+\caption {Pseudo Code: Read program for Shared Memory Testing}
+\end{figure}
+\newline
+Corruption will be determined by checking the all the values of the array and if the integers aren’t all the same the data was corrupted. The method to obtain the benchmark is outline below.
 \newline
 \underline {\bf Method}
 \begin{enumerate}
 \item Change Array Size
-\item Run Both Write Programs and Read Program\item Monitor Output to check if corruption
+\item Run Both Write Programs and Read Program
+\item Monitor Output to check if corruption
 \item Repeat Steps 1-3 until corruption exists
 \end {enumerate}
 \newpage
-\subsubsection{Experiment 1.2 - Circular Buffer Size}The second experiment relies on the benchmark obtained in the first experiment to compare the chance of corruption by varying the sizes of the circular buffer. This purpose of the experiment is to prove that the circular buffer can minimise or eliminate the corruption of data and to obtain a reliable circular buffer size for all inter-process communication.\newlineThe experiment will start of using an array the size determined in experiment 1.1 as the benchmarking value. The testing procedure will be similar to the method used in experiment 1.1. The circular buffer size will be increase and the tests re-run until the corruption is minimised or eliminated completely.\newline\underline {\bf Method}\begin{enumerate}\item Set Array Size to benchmark size\item Change Circular Buffer Size\item Run Both Write Programs and Read Program\item Monitor Output to check if corruption\item Repeat Steps 2-4 until corruption disappears\end {enumerate}\newpage
-\subsubsection{Experiment 1.3 - Circular Buffer Size with Multiple Writers}The third part of experiment 1 is to confirm that at the "safe" recommended value the data isn't corrupted by the multiple writers and to ensure that the circular buffer internal values are being updated correctly. To assist with this test, a status function was added to export the current status including the checksum. The test will be used to ensure that the values
-\underline {\bf Method}\begin{enumerate}\item Set Array Size to benchmark size\item Set Circular Buffer Size to "safe" size\item Run Read Program and 10 write programs\item Monitor Output to check if corruption\item Monitor Circular Buffer Status to ensure Updating happens 
-\end {enumerate}\newpage
+\subsubsection{Experiment 1.2 - Circular Buffer Size}
+The second experiment relies on the benchmark obtained in the first experiment to compare the chance of corruption by varying the sizes of the circular buffer. This purpose of the experiment is to prove that the circular buffer can minimise or eliminate the corruption of data and to obtain a reliable circular buffer size for all inter-process communication.\newline
+The experiment will start of using an array the size determined in experiment 1.1 as the benchmarking value. The testing procedure will be similar to the method used in experiment 1.1. The circular buffer size will be increase and the tests re-run until the corruption is minimised or eliminated completely.\newline
+\underline {\bf Method}
+\begin{enumerate}
+\item Set Array Size to benchmark size
+\item Change Circular Buffer Size
+\item Run Both Write Programs and Read Program
+\item Monitor Output to check if corruption
+\item Repeat Steps 2-4 until corruption disappears
+\end {enumerate}
+\newpage
+\subsubsection{Experiment 1.3 - Circular Buffer Size with Multiple Writers}
+The third experiment for the shared memory is to confirm the “safe” recommended value with multiple writers, under heavy computer load and to ensure that the circular buffer values are being updated correctly.\newlineThe safe recommended value, for the circular buffer, is chosen to be above the value obtained in experiment 1.2. For this experiment the value 5 was chosen. This should proved to be corruption free as it is higher than the obtained value. This value will then be tested at high load on the computer which will be multiple programs running at the same time. This will allow the experiment to show if increase CPU load and multiple programs writing to the shared memory will result in corruption at the safe value.\newlineA status function was written to allow the read program to read the current values of the read, write counters and the checksum and allowing it to be checked on screen for accuracy.
+\newline
+\underline {\bf Method}
+\begin{enumerate}
+\item Set Array Size to benchmark size
+\item Set Circular Buffer Size to "safe" size
+\item Run Read Program and 10 write programs
+\item Monitor Output to check if corruption
+\item Monitor Circular Buffer Status to ensure Updating happens 
+\end {enumerate}
+\newpage
 \subsection{Experiment 2 - Network Node Timing}
-Experiment 2 is designed to test the overall timing of the approach. The experiment involves creating a change in the OG and time stamping this change. This is then written into shared memory. Once this change has been propagated through the network to the next node, the time is then checked and a comparison of time is printed to file. Both computers clocks will be synced using the linux ntp server to ensure accuracy. To minimise errors twenty changes will be made and timing will be averaged over each testing set.  This experiment will then be repeated multiple times to confirm and validate the timing. This will give an approximate timing for the operation of the entire sharing process which will help in determining the maximum number of connections available at a single time.
+Experiment 2 was designed to test the end to end timing of the entire approach. This includes the network manager and the shared memory implementations. Timings will be able to compared with other network sharing protocols such as scp. All platforms will have their clocks synced before the testing using the built in linux ntp servers.\newlineDifferent sizes OG will also be shared over the network, to check to see if there is an optimal size of data being sent. The OG data will be time-stamped by the initial program then written to the shared memory to be shared memory. This changed will be propagated through the network to the next node. The next node will then check the time stamp and display the timing it took for the packet to reach it.\newlineEach data set will consist of twenty changes and the timings will be averaged for that data set to minimise errors created by interference in the bandwidth. The experiment will be repeated with different sizes of OG to determine the ideal size of sending data and allowing a comparison to be made against the same sizes being sent through other sharing programs.\newlineOnce the ideal size has been determined this will also give a approximate number of connections that the bandwidth can take without severe flooding of the bandwidth.
 \newpage
 \section{Chapter 6: Results}
 \subsection{Experiment 1 - Shared Memory}
@@ -220,17 +269,18 @@ These results were obtained with a circular buffer of size 4. The graph shows th
 The results of this test confirmed that for sizes greater than 4, the data still remains corruption free with more than two writing to the shared memory. 
 \begin{figure}[H]
 \centering
-\includegraphics[width=150mm]{Figures/BufferSize1.jpg}
+\includegraphics[width=150mm]{Figures/experiment1-3.jpg}
 \caption{Results of Experiment 1.3 - Terminal Output}
 \end{figure}
 The figure above shows the output from the status function for multiple reads. It shows that the internal values were updated correctly.
 \newpage
 \subsection{Experiment 2 - Network Node Timing}
+// still need to add
 \newpage
 \section{Chapter 7: Discussion}
 This will be where i discuss the whole approach
 \subsection{7.1 - Shared Memory}
-This is where i will discuss the shared memory
+From Figure 6 we can see that the corruption doesn’t happen for smaller sizes. This is due to the computer is able to read the shared memory quicker than the program can over write it. The testing was performed on a machine of similar specs to the actual platform. A test was performed on a computer that had greater specs that the platform and that showed that there was no shared memory corruption. The graph also showed that only 40\% of tests were corrupted. This would be mainly caused by the reading happening immediately before another write happens. It would be possible to time the platforms exactly to eliminate corruption however that would require a custom Operating System to controlling all platform timing.(as well as all other OS functions). The greatest number of elements that didn’t cause a segfault was 500000. This was due to an inbuilt restriction on the OS. The total memory usage increased when the circular buffer increased in size so it can be said that memory limit was not reached and thus the maximum size was set by the OS.\newlineFigure 7 and Figure 8 showed that as the corruption was minimised as the circular buffer was increased. This shows that the circular buffer implementation was able to eliminate some of the corruption by giving the reading programs more time before the data is overwritten. Figure 8 also shows that data corruption still exists with a circular buffer of size 3. The rate at which the circular buffer decreases wasn’t a proportional amount so it is impossible to work out in advance how big the buffer needs to be for a particular array size. \newlineFigure 9 shows that corruption didn’t occur at all in the data with a circular buffer of size 4. All these values all are affect by how much the computer is being used for other tasks. To allow for the difference between different computers, and the load on the computer, Experiment 1.3 was tested with a circular buffer of size 5 while having the computer perform multiple instances of the program. Figure 10 also proves that under a heavier load (multiple programs) the corruption is still eliminated. \newlineFigure 11 in Experiment 1.3 shows that the values inside the shared memory are updating based on each write. The numbers missing in the middle show that all programs are using the same set of pointers and that two people wrote between the reads. It also shows that the read counter is always one previous to the write counter. The experiment was important to ensure that the shared memory was working properly and efficiently and that all programs were using the same set of counters and not either reinitialising each time a program starts or using there own set of counters.\newlineThese experimental results show that the data being shared through the shared memory is intelligently and efficiently being communicated between programs and each other or the network manager.
 \newpage
 \subsection{7.2 - Network Node Timing}
 This is where i will discuss the networking part
