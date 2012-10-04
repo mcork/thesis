@@ -13,7 +13,7 @@
 #define SERVER "6000"
 #define NUMCON 1
 #define DEBUGMODE 1	// shows error messages on stdout to allow for debugging
-#define IPADDR "192.168.91.136"	// can't use loopback anymore as clases will happen with node recv and send
+#define IPADDR "10.42.0.1"	// can't use loopback anymore as clases will happen with node recv and send
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -68,9 +68,7 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	hints.ai_flags = AI_PASSIVE	;	// Fills in IP Address
 
 // initialising shared memory receptacle
-	myOG.xVal=0;
 	myOG.myChange=false;
-	myOG.otherChange=false;
 
 // initialising recv connection
 	connect(recvSock, (struct sockaddr *)&recvDest, sizeof(struct sockaddr));
@@ -85,8 +83,8 @@ int SendMessage(void *message, int messageSize, int socketFd);
 		// checking socket exists
 		if ((listenFd = socket(p->ai_family, p->ai_socktype,p->ai_protocol)) == -1) {
 	            perror("server: socket");
-        	    continue;
-       		}
+				continue;
+			}
 	        // bind socket and check for errors
         	if (bind(listenFd, p->ai_addr, p->ai_addrlen) == -1) {
         	    perror("server: bind");
@@ -101,7 +99,7 @@ int SendMessage(void *message, int messageSize, int socketFd);
 	if (listen(listenFd, NUMCON) == -1) {
 		perror("listen");
 		return 1;
-   	}
+ 	}
 	// Server Info
 	if (DEBUGMODE == 1)printf("server: waiting for connections...\n");
 	while(1){
@@ -115,9 +113,9 @@ int SendMessage(void *message, int messageSize, int socketFd);
 		if (DEBUGMODE == 1)printf("server: got connection from %s on %d\n", connectedIP,ServerSockFd);
 		while(1){
 			// implement check to see if client is connected otherwise call connect again
-//			if recvSock doesn't exist {
-//				connect(recvSock, (struct sockaddr *)&recvDest, sizeof(struct sockaddr));
-//			}
+/*			if recvSock doesn't exist {
+				connect(recvSock, (struct sockaddr *)&recvDest, sizeof(struct sockaddr));
+			}*/
 	/**************** READ INCOMING MESSAGES FROM OTHERS *********************************/
 			// Need to read data in and deal with it
 			readCheck=recv(recvSock, &messageRecv,sizeof(messageRecv),MSG_DONTWAIT);
@@ -126,7 +124,6 @@ int SendMessage(void *message, int messageSize, int socketFd);
 				printf("Got data\n");
 				myOG.xVal = messageRecv.xVal;
 				myOG.writeTime = messageRecv.writeTime;
-				myOG.otherChange = true;
 				OGMap.write(myOG);
 			}
 	/***************** SYNC OG WITH LOCAL  ****************************************************/
@@ -134,8 +131,9 @@ int SendMessage(void *message, int messageSize, int socketFd);
 			sharedOG = OGMap.read();
 			std::cout << "sharedOG - " << sharedOG << std::endl;
 			if (sharedOG != (OG*)-1){
-				myOG.xVal = sharedOG->xVal;
-				myOG.myChange = sharedOG->myChange;
+				myOG.myFile = sharedOG->myFile;
+				myOG.writeTime = sharedOG->writeTime;
+				myOg.myChange = true;
 			}
 			if (DEBUGMODE)printf("MyChange - %d\n",myOG.myChange);
 			if (myOG.myChange == true){

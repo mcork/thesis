@@ -11,7 +11,7 @@
 #include <fstream>
 #include <iostream>
 #include <time.h>
-#include <OG.h>
+#include "OG.h"
 
 #define MAXRCVLEN 1048576
 #define PORTNUM 6000
@@ -24,10 +24,11 @@ int checkBuffer(char buffer1[],char buffer2[]);
 
 
 int main  (int argc, char *argv[]){
-	char buffer[MAXRCVLEN +1], bufferOld[MAXRCVLEN+1];
+	OG* buffer;
 	int len=-1, mysocket, loopCount=0;
 	int recvLen=0;
 	struct sockaddr_in dest;
+	
 
 	fstream myFile;
 	myFile.open("transfer1.txt",ios::binary|ios::out);
@@ -36,7 +37,7 @@ int main  (int argc, char *argv[]){
 
 	memset(&dest, 0, sizeof(dest));
 	dest.sin_family = AF_INET;
-	dest.sin_addr.s_addr = inet_addr("127.0.0.1");
+	dest.sin_addr.s_addr = inet_addr("10.42.0.1");
 	dest.sin_port = htons(PORTNUM);
 
 	connect(mysocket, (struct sockaddr *)&dest, sizeof(struct sockaddr));
@@ -62,6 +63,7 @@ int main  (int argc, char *argv[]){
 				}else{
 					if (DEBUGMODE == 1)printf("Failed to Open File\n");		
 				}
+
 			}else{
 				printf("No new message was sent\n");
 			}
