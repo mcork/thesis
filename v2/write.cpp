@@ -11,20 +11,16 @@ int main(){
 	shmem_region<OG> OGMap("OG");
 	OG myOG;
 	myOG.xVal = 0;
-	myOG.yVal = 0;
-	myOG.zVal = 0;
+	myOG.writeTime = time(0);
 	myOG.myChange = true;
 	OGMap.write(myOG);
-	printf("Initial Values\nxVal - %d, yVal - %d, zVal - %d\n",myOG.xVal,myOG.yVal,myOG.zVal);
+	printf("Initial Values\nxVal - %d\n",myOG.xVal);
 	while (1){
 		// Enter User Values
 		printf("Please Enter Xval - ");
 		scanf("%d",&myOG.xVal);
-		printf("Please Enter yVal - ");
-		scanf("%d",&myOG.yVal);
-		printf("Please Enter zVal - ");
-		scanf("%d",&myOG.zVal);
-		printf("Changed Values\nxVal - %d, yVal - %d, zVal - %d\n",myOG.xVal,myOG.yVal,myOG.zVal);
+		myOG.writeTime = time(0);
+		printf("Changed Values\nxVal - %d\n",myOG.xVal);
 		// Write to shared memory
 		myOG.myChange = true;
 		OGMap.write(myOG);

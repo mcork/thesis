@@ -1,4 +1,4 @@
-// Version 2.1
+// Version 2.2
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,6 +11,7 @@
 #include <fstream>
 #include <iostream>
 #include <time.h>
+#include <OG.h>
 
 #define MAXRCVLEN 1048576
 #define PORTNUM 6000

@@ -1,7 +1,8 @@
+#include <ctime>
+
 typedef struct OG{
 	int xVal;
-	int yVal;
-	int zVal;
 	bool myChange;
 	bool otherChange;
+	time_t writeTime;
 } OG;

@@ -69,8 +69,6 @@ int SendMessage(void *message, int messageSize, int socketFd);
 
 // initialising shared memory receptacle
 	myOG.xVal=0;
-	myOG.yVal=0;
-	myOG.zVal=0;
 	myOG.myChange=false;
 	myOG.otherChange=false;
 
@@ -126,9 +124,8 @@ int SendMessage(void *message, int messageSize, int socketFd);
 			if (DEBUGMODE == 1)printf("Read Check: %d\n",readCheck);
 			if (readCheck > -1) {
 				printf("Got data\n");
-				messageRecv.xVal = myOG.xVal;
-				messageRecv.yVal = myOG.yVal;
-				messageRecv.zVal = myOG.zVal;
+				myOG.xVal = messageRecv.xVal;
+				myOG.writeTime = messageRecv.writeTime;
 				myOG.otherChange = true;
 				OGMap.write(myOG);
 			}
@@ -138,8 +135,6 @@ int SendMessage(void *message, int messageSize, int socketFd);
 			std::cout << "sharedOG - " << sharedOG << std::endl;
 			if (sharedOG != (OG*)-1){
 				myOG.xVal = sharedOG->xVal;
-				myOG.yVal = sharedOG->yVal;
-				myOG.zVal = sharedOG->zVal;
 				myOG.myChange = sharedOG->myChange;
 			}
 			if (DEBUGMODE)printf("MyChange - %d\n",myOG.myChange);
