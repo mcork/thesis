@@ -19,12 +19,14 @@ int main(){
 		update = fgetc(stdin);
 		printf("Checksum: %d, Read Entry: %d, Write Entry: %d\n",EntryValues[0],EntryValues[1],EntryValues[2]);
 		myOG = OGMap.read();
+		myTime = time(0);
 		if ((int*)myOG == (int*)-1) {
 			printf("No Data has been written \n");
 		}else{
+			printf("My Time %d\n", myTime);
 			printf("New OG Xval is %d\n",myOG->xVal);
-			printf("Time %d\n",myOG->writeTime);
-			printf("Difference - %d\n",myTime-(myOG->xVal));
+			printf("Their Time %d\n",myOG->writeTime);
+			printf("Difference - %d\n",myTime-(myOG->writeTime));
 		}
 	}
 
