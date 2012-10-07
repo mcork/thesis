@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  7 OCT 2012 21:19
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  8 OCT 2012 09:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -243,11 +243,11 @@ LaTeX Font Info:    ... okay on input line 25.
 \makeMPintoPDFobject=\count101
 \everyMPtoPDFconversion=\toks21
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 27.
+LaTeX Font Info:    Try loading font information for U+msa on input line 26.
  (/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 27.
+LaTeX Font Info:    Try loading font information for U+msb on input line 26.
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
@@ -264,215 +264,215 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 \openout5 = `Thesis.lof'.
 
  [6] [7] [8]
-Overfull \hbox (15.27794pt too wide) in paragraph at lines 58--59
+Overfull \hbox (15.27794pt too wide) in paragraph at lines 71--72
 []\OT1/cmr/m/n/12 Pham Van's re-search in-ves-ti-gates the is-sues of bandwidth
 -hogging and time-sensitivity
  []
 
-[9] [10] <Figures/NetworkStructure.jpg, id=39, 391.4625pt x 305.64188pt>
+[9] [10] [11] <Figures/NetworkStructure.jpg, id=42, 391.4625pt x 305.64188pt>
 File: Figures/NetworkStructure.jpg Graphic file (type jpg)
 
 <use Figures/NetworkStructure.jpg>
-Package pdftex.def Info: Figures/NetworkStructure.jpg used on input line 71.
+Package pdftex.def Info: Figures/NetworkStructure.jpg used on input line 84.
 (pdftex.def)             Requested size: 426.79134pt x 333.24562pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 71--72
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 84--85
  [][] 
  []
 
-[11 <./Figures/NetworkStructure.jpg>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 79.
+[12 <./Figures/NetworkStructure.jpg>]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 92.
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 79.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 92.
 Missing character: There is no Ò in font cmr12!
 Missing character: There is no Ó in font cmr12!
- [12]
-Missing character: There is no Õ in font cmr12!
-Missing character: There is no Õ in font cmr12!
  [13]
-[14]
 Missing character: There is no Õ in font cmr12!
 Missing character: There is no Õ in font cmr12!
- <Figures/serverClient.jpg, id=54, 426.59375pt x 249.93375pt>
+ [14]
+[15]
+Missing character: There is no Õ in font cmr12!
+Missing character: There is no Õ in font cmr12!
+ <Figures/serverClient.jpg, id=57, 426.59375pt x 249.93375pt>
 File: Figures/serverClient.jpg Graphic file (type jpg)
 
 <use Figures/serverClient.jpg>
-Package pdftex.def Info: Figures/serverClient.jpg used on input line 118.
+Package pdftex.def Info: Figures/serverClient.jpg used on input line 131.
 (pdftex.def)             Requested size: 426.79134pt x 250.0666pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 118--119
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 131--132
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 108--121
+Underfull \hbox (badness 10000) in paragraph at lines 121--134
 
  []
 
-[15] [16] <Figures/nodeConnection.jpg, id=61, 653.44125pt x 373.395pt>
+[16] [17] <Figures/nodeConnection.jpg, id=64, 653.44125pt x 373.395pt>
 File: Figures/nodeConnection.jpg Graphic file (type jpg)
 
 <use Figures/nodeConnection.jpg>
-Package pdftex.def Info: Figures/nodeConnection.jpg used on input line 124.
+Package pdftex.def Info: Figures/nodeConnection.jpg used on input line 137.
 (pdftex.def)             Requested size: 426.79134pt x 243.87756pt.
-
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 124--125
- [][] 
- []
-
-[17 <./Figures/serverClient.jpg>]
-Missing character: There is no Õ in font cmr12!
-Missing character: There is no Õ in font cmr12!
- [18 <./Figures/nodeConnection.jpg>]
-<Figures/sharedMemory.jpg, id=68, 654.94687pt x 456.20438pt>
-File: Figures/sharedMemory.jpg Graphic file (type jpg)
-
-<use Figures/sharedMemory.jpg>
-Package pdftex.def Info: Figures/sharedMemory.jpg used on input line 137.
-(pdftex.def)             Requested size: 426.79134pt x 297.28111pt.
 
 Overfull \hbox (8.53766pt too wide) in paragraph at lines 137--138
  [][] 
  []
 
-[19] [20 <./Figures/sharedMemory.jpg>] [21] [22] [23] [24]
-Underfull \hbox (badness 10000) in paragraph at lines 179--180
+[18 <./Figures/serverClient.jpg>]
+Missing character: There is no Õ in font cmr12!
+Missing character: There is no Õ in font cmr12!
+ [19 <./Figures/nodeConnection.jpg>]
+<Figures/sharedMemory.jpg, id=72, 654.94687pt x 456.20438pt>
+File: Figures/sharedMemory.jpg Graphic file (type jpg)
+
+<use Figures/sharedMemory.jpg>
+Package pdftex.def Info: Figures/sharedMemory.jpg used on input line 150.
+(pdftex.def)             Requested size: 426.79134pt x 297.28111pt.
+
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 150--151
+ [][] 
+ []
+
+[20] [21 <./Figures/sharedMemory.jpg>] [22] [23] [24] [25]
+Underfull \hbox (badness 10000) in paragraph at lines 192--193
 
  []
 
 Missing character: There is no Õ in font cmr12!
-[25] [26] [27]
+[26] [27] [28]
 Missing character: There is no Ò in font cmr12!
 Missing character: There is no Ó in font cmr12!
- [28] [29]
-<Figures/BufferSize1.jpg, id=105, 642.4pt x 374.39874pt>
+ [29] [30]
+<Figures/BufferSize1.jpg, id=108, 642.4pt x 374.39874pt>
 File: Figures/BufferSize1.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize1.jpg>
-Package pdftex.def Info: Figures/BufferSize1.jpg used on input line 255.
+Package pdftex.def Info: Figures/BufferSize1.jpg used on input line 268.
 (pdftex.def)             Requested size: 426.79134pt x 248.74352pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 255--256
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 268--269
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 259--261
+Underfull \hbox (badness 10000) in paragraph at lines 272--274
 
  []
 
-<Figures/BufferSize2.jpg, id=106, 641.39626pt x 376.40625pt>
+<Figures/BufferSize2.jpg, id=109, 641.39626pt x 376.40625pt>
 File: Figures/BufferSize2.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize2.jpg>
-Package pdftex.def Info: Figures/BufferSize2.jpg used on input line 264.
+Package pdftex.def Info: Figures/BufferSize2.jpg used on input line 277.
 (pdftex.def)             Requested size: 426.79134pt x 250.46782pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 264--265
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 277--278
  [][] 
  []
 
-[30 <./Figures/BufferSize1.jpg>]
-<Figures/BufferSize3.jpg, id=110, 639.38875pt x 376.40625pt>
+[31 <./Figures/BufferSize1.jpg>]
+<Figures/BufferSize3.jpg, id=114, 639.38875pt x 376.40625pt>
 File: Figures/BufferSize3.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize3.jpg>
-Package pdftex.def Info: Figures/BufferSize3.jpg used on input line 272.
+Package pdftex.def Info: Figures/BufferSize3.jpg used on input line 285.
 (pdftex.def)             Requested size: 426.79134pt x 251.25468pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 272--273
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 285--286
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 268--275
+Underfull \hbox (badness 10000) in paragraph at lines 281--288
 
  []
 
-[31 <./Figures/BufferSize2.jpg>]
-<Figures/BufferSize4.jpg, id=115, 636.3775pt x 373.395pt>
+[32 <./Figures/BufferSize2.jpg>]
+<Figures/BufferSize4.jpg, id=118, 636.3775pt x 373.395pt>
 File: Figures/BufferSize4.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize4.jpg>
-Package pdftex.def Info: Figures/BufferSize4.jpg used on input line 280.
+Package pdftex.def Info: Figures/BufferSize4.jpg used on input line 293.
 (pdftex.def)             Requested size: 426.79134pt x 250.41833pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 280--281
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 293--294
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 276--283
+Underfull \hbox (badness 10000) in paragraph at lines 289--296
 
  []
 
-[32 <./Figures/BufferSize3.jpg>] [33 <./Figures/BufferSize4.jpg>]
-<Figures/BufferSize5.jpg, id=122, 635.37375pt x 367.3725pt>
+[33 <./Figures/BufferSize3.jpg>] [34 <./Figures/BufferSize4.jpg>]
+<Figures/BufferSize5.jpg, id=125, 635.37375pt x 367.3725pt>
 File: Figures/BufferSize5.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize5.jpg>
-Package pdftex.def Info: Figures/BufferSize5.jpg used on input line 289.
+Package pdftex.def Info: Figures/BufferSize5.jpg used on input line 302.
 (pdftex.def)             Requested size: 426.79134pt x 246.77733pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 289--290
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 302--303
  [][] 
  []
 
-<Figures/experiment1-3.jpg, id=123, 465.74pt x 393.47pt>
+<Figures/experiment1-3.jpg, id=126, 465.74pt x 393.47pt>
 File: Figures/experiment1-3.jpg Graphic file (type jpg)
 
 <use Figures/experiment1-3.jpg>
-Package pdftex.def Info: Figures/experiment1-3.jpg used on input line 296.
+Package pdftex.def Info: Figures/experiment1-3.jpg used on input line 309.
 (pdftex.def)             Requested size: 426.79134pt x 360.57986pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 296--297
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 309--310
  [][] 
  []
 
-[34 <./Figures/BufferSize5.jpg>] [35 <./Figures/experiment1-3.jpg>]
-<Figures/Experiment2Upper.jpg, id=130, 355.3275pt x 234.8775pt>
+[35 <./Figures/BufferSize5.jpg>] [36 <./Figures/experiment1-3.jpg>]
+<Figures/Experiment2Upper.jpg, id=133, 355.3275pt x 234.8775pt>
 File: Figures/Experiment2Upper.jpg Graphic file (type jpg)
 
 <use Figures/Experiment2Upper.jpg>
-Package pdftex.def Info: Figures/Experiment2Upper.jpg used on input line 305.
+Package pdftex.def Info: Figures/Experiment2Upper.jpg used on input line 318.
 (pdftex.def)             Requested size: 426.79134pt x 282.12396pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 305--306
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 318--319
  [][] 
  []
 
-<Figures/Experiment2Lower.jpg, id=131, 356.0803pt x 336.50719pt>
+<Figures/Experiment2Lower.jpg, id=134, 356.0803pt x 336.50719pt>
 File: Figures/Experiment2Lower.jpg Graphic file (type jpg)
 
 <use Figures/Experiment2Lower.jpg>
-Package pdftex.def Info: Figures/Experiment2Lower.jpg used on input line 313.
+Package pdftex.def Info: Figures/Experiment2Lower.jpg used on input line 326.
 (pdftex.def)             Requested size: 426.79134pt x 403.3496pt.
 
-Overfull \hbox (8.53766pt too wide) in paragraph at lines 313--314
+Overfull \hbox (8.53766pt too wide) in paragraph at lines 326--327
  [][] 
  []
 
-[36 <./Figures/Experiment2Upper.jpg>] [37 <./Figures/Experiment2Lower.jpg>]
+[37 <./Figures/Experiment2Upper.jpg>] [38 <./Figures/Experiment2Lower.jpg>]
 Missing character: There is no Õ in font cmr12!
 Missing character: There is no Õ in font cmr12!
 Missing character: There is no Õ in font cmr12!
 Missing character: There is no Õ in font cmr12!
 
-[38] [39] [40] [41]
-Underfull \hbox (badness 10000) in paragraph at lines 339--344
+[39] [40] [41] [42]
+Underfull \hbox (badness 10000) in paragraph at lines 353--358
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--344
+Underfull \hbox (badness 10000) in paragraph at lines 353--358
 
  []
 
-[42] [43] [44] (./Thesis.aux) ) 
+[43] [44] (./Thesis.aux) ) 
 Here is how much of TeX's memory you used:
  2861 strings out of 493488
  41976 string characters out of 3141326
@@ -481,15 +481,15 @@ Here is how much of TeX's memory you used:
  13179 words of font info for 51 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  42i,6n,24p,1126b,281s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2012/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr17.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmsy10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmtt10.pfb>
-Output written on Thesis.pdf (44 pages, 873916 bytes).
+</usr/local/texlive/2012/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr12.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr17.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmsy10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmtt10.pfb>
+Output written on Thesis.pdf (44 pages, 877798 bytes).
 PDF statistics:
  188 PDF objects out of 1000 (max. 8388607)
  121 compressed objects within 2 object streams

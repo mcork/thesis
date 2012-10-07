@@ -3,26 +3,28 @@
 \contentsline {section}{Table of Contents}{5}
 \contentsline {section}{List of Figures}{6}
 \contentsline {section}{Chapter 1: Introduction}{7}
-\contentsline {section}{Chapter 2: Literature Review}{8}
-\contentsline {section}{Chapter 3: Technical Report}{11}
-\contentsline {section}{Chapter 4: The Implementation}{19}
-\contentsline {subsection}{Shared Memory Protocol}{19}
-\contentsline {subsection}{Network}{23}
-\contentsline {section}{Chapter 5: Experiments}{25}
-\contentsline {subsection}{Experiment 1 - Shared Memory}{25}
-\contentsline {subsubsection}{Experiment 1.1 - Benchmarking Shared Memory}{25}
-\contentsline {subsubsection}{Experiment 1.2 - Circular Buffer Size}{27}
-\contentsline {subsubsection}{Experiment 1.3 - Circular Buffer Size with Multiple Writers}{28}
-\contentsline {subsection}{Experiment 2 - Network Node Timing}{29}
-\contentsline {section}{Chapter 6: Results}{30}
-\contentsline {subsection}{Experiment 1 - Shared Memory}{30}
-\contentsline {subsubsection}{Experiment 1.1 - Benchmarking Shared Memory}{30}
-\contentsline {subsubsection}{Experiment 1.2 - Circular Buffer Size}{31}
-\contentsline {subsubsection}{Experiment 1.3 - Circular Buffer Size with Multiple Writers}{34}
-\contentsline {subsection}{Experiment 2 - Network Node Timing}{36}
-\contentsline {section}{Chapter 7: Discussion}{38}
-\contentsline {subsection}{7.1 - Shared Memory}{38}
-\contentsline {subsection}{7.2 - Network Node Timing}{40}
-\contentsline {section}{Chapter 8: Future Work}{42}
-\contentsline {section}{Chapter 9: Conclusion}{43}
-\contentsline {section}{Appendix}{44}
+\contentsline {subsection}{1.1 - Importance of OG Sharing}{7}
+\contentsline {subsection}{1.2 - Thesis Objectives}{7}
+\contentsline {subsection}{1.3 - Thesis Overview}{8}
+\contentsline {section}{Chapter 2: Literature Review}{9}
+\contentsline {section}{Chapter 3: Technical Report}{12}
+\contentsline {section}{Chapter 4: The Implementation}{20}
+\contentsline {subsection}{Shared Memory Protocol}{20}
+\contentsline {subsection}{Network}{24}
+\contentsline {section}{Chapter 5: Experiments}{26}
+\contentsline {subsection}{Experiment 1 - Shared Memory}{26}
+\contentsline {subsubsection}{Experiment 1.1 - Benchmarking Shared Memory}{26}
+\contentsline {subsubsection}{Experiment 1.2 - Circular Buffer Size}{28}
+\contentsline {subsubsection}{Experiment 1.3 - Circular Buffer Size with Multiple Writers}{29}
+\contentsline {subsection}{Experiment 2 - Network Node Timing}{30}
+\contentsline {section}{Chapter 6: Results}{31}
+\contentsline {subsection}{Experiment 1 - Shared Memory}{31}
+\contentsline {subsubsection}{Experiment 1.1 - Benchmarking Shared Memory}{31}
+\contentsline {subsubsection}{Experiment 1.2 - Circular Buffer Size}{32}
+\contentsline {subsubsection}{Experiment 1.3 - Circular Buffer Size with Multiple Writers}{35}
+\contentsline {subsection}{Experiment 2 - Network Node Timing}{37}
+\contentsline {section}{Chapter 7: Discussion}{39}
+\contentsline {subsection}{7.1 - Shared Memory}{39}
+\contentsline {subsection}{7.2 - Network Node Timing}{41}
+\contentsline {section}{Chapter 8: Future Work}{43}
+\contentsline {section}{Chapter 9: Conclusion}{44}
