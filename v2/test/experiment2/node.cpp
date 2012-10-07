@@ -12,7 +12,7 @@
 #define PORT "6000"
 #define NUMCON 1
 #define DEBUGMODE 1	// shows error messages on stdout to allow for debugging
-#define SENDFILE "1M"
+#define SENDFILE "files/4.5K"
 
 #include <stdio.h>
 #include <stdlib.h>

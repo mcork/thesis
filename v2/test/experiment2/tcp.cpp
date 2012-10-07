@@ -11,7 +11,7 @@
 #include <fstream>
 #include <iostream>
 
-#define MAXRCVLEN 104857600
+#define MAXRCVLEN 1048576
 #define PORTNUM 6000
 #define DEBUGMODE 1 //allows for debugging mode
 
@@ -25,13 +25,13 @@ int main  (int argc, char *argv[]){
 	struct sockaddr_in dest;
 
 	fstream myFile;
-	myFile.open("transfer.txt",ios::binary|ios::out);
+	myFile.open("files/10MBSent",ios::binary|ios::out);
 
 	mysocket = socket(AF_INET, SOCK_STREAM,0);
 
 	memset(&dest, 0, sizeof(dest));
 	dest.sin_family = AF_INET;
-	dest.sin_addr.s_addr = inet_addr("10.0.0.3");
+	dest.sin_addr.s_addr = inet_addr("10.42.0.2");
 	dest.sin_port = htons(PORTNUM);
 
 	connect(mysocket, (struct sockaddr *)&dest, sizeof(struct sockaddr));
