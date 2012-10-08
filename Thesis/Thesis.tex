@@ -16,14 +16,8 @@
 \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
 \newfloat{Pseudo Code}{thp}{lof}
 
-
-\title{Intelligent Sharing of Occupancy Grids over wireless Adhoc networks on mobile platforms in urban environments}
-\author{Matthew Cork}
-\date{}							% Activate to display a given date or no date
-
-
 \begin{document}
-\maketitle {}
+\include{title}
 \newpage
 \begin{abstract}
 \addcontentsline{toc}{section}{Abstract}
@@ -34,7 +28,7 @@ My abstract goes here...
 \addcontentsline{toc}{section}{Acknowledgements}
 \begin{abstract}
 I would like to firstly thank the Mavstar team for the equipment and support to help me in my thesis.\newline
-Next I would like to thank my Supervisors Mr Michael Woods and Dr Jose Guivant for their support snd ideas to help me in completion of my Thesis.\newline
+Next I would like to thank my Supervisors Mr Michael Woods and Dr Jose Guivant for their support and ideas to help me in completion of my Thesis.\newline
 I was like to thank Matthew Grosvenor for answering all my networking question to the best of his ability.\newline
 Lastly I would like to thank my friends and family for putting up with me while writing the Thesis.
 \end{abstract}
@@ -340,7 +334,13 @@ Figure~\ref{fig:resultTerminalOutput} in Experiment 1.3 shows that the values in
 These experimental results show that the data being shared through the shared memory is intelligently and efficiently being communicated between programs and each other or the network manager.
 \newpage
 \subsection{7.2 - Network Node Timing}
-Experiment 2 was conducted by averaging twenty times for the same file size. This was done to help reduce errors created by interference in the wireless range. In most of the tests outliers were found and removed from the average. To establish an outlier, the average was taken and any value more than 20\% greater of less than this value was considered an outlier. The average was then recalculated without this value. This gave a more accurate value for normal timing for each file size. The graphs in the results are without outliers.\newlineFigure~\ref{fig:resultExperiment2Full} contains the values from 1kB up to 5mB. This was necessary as below 1kB was already represented on Figure ~\ref{fig:resultExperiment2Low} and only graphing up to 5mB gave a greater resolution for the other values. Above 10mB the graph tended to be more linear than exponential. \newlineHowever above 10 mB the values were also much less reliable. \newlineFor a file size of 50mB more testing was required as more than half of the timings were over the threshold of an outlier. Most values were around 75\% above or below average with some being over 200\%. With the second set of testing the results were consistent with the first set of testing. This error is to great to include it in the graph results.\newlineFigure~\ref{fig:resultExperiment2Full} shows the overall shape of the curve. As the file size increased the timing was increasing exponentially. This was expected as the data iS increasing with a base of two and each increase will compound by a factor of two. \newlineFigure~\ref{fig:resultExperiment2Low} shows the timings between 1kB and 5kB. These timing show a very unique and complicated pattern. As can be seen from the Figure files sizes under 1kB suggested that the timing was going to plateau. This plateauing indicates a limit in the networking packet size. The shape of the first part of the graph also shows that there is a significant overhead for small packets as the timing increases less the closer the file size gets to 1kB. \newlineFrom 1kB onwards shows and nonstandard oscillating wave around a 45 degree angle. The curve isn't exactly the same for each period as the first period is larger than the other two. This was an unexpected result as the shape for all other segments were exponential. More research would need to be done to determine if the results are caused by some interference.\newline
+Experiment 2 was conducted by averaging twenty times for the same file size. This was done to help reduce errors created by interference in the wireless range. In most of the tests outliers were found and removed from the average. To establish an outlier, the average was taken and any value more than 20\% greater of less than this value was considered an outlier. The average was then recalculated without this value. This gave a more accurate value for normal timing for each file size. The graphs in the results are without outliers.\newline
+Figure~\ref{fig:resultExperiment2Full} contains the values from 1kB up to 5mB. This was necessary as below 1kB was already represented on Figure ~\ref{fig:resultExperiment2Low} and only graphing up to 5mB gave a greater resolution for the other values. Above 10mB the graph tended to be more linear than exponential. \newline
+However above 10 mB the values were also much less reliable. \newline
+For a file size of 50mB more testing was required as more than half of the timings were over the threshold of an outlier. Most values were around 75\% above or below average with some being over 200\%. With the second set of testing the results were consistent with the first set of testing. This error is to great to include it in the graph results.\newline
+Figure~\ref{fig:resultExperiment2Full} shows the overall shape of the curve. As the file size increased the timing was increasing exponentially. This was expected as the data iS increasing with a base of two and each increase will compound by a factor of two. \newline
+Figure~\ref{fig:resultExperiment2Low} shows the timings between 1kB and 5kB. These timing show a very unique and complicated pattern. As can be seen from the Figure files sizes under 1kB suggested that the timing was going to plateau. This plateauing indicates a limit in the networking packet size. The shape of the first part of the graph also shows that there is a significant overhead for small packets as the timing increases less the closer the file size gets to 1kB. \newline
+From 1kB onwards shows and nonstandard oscillating wave around a 45 degree angle. The curve isn't exactly the same for each period as the first period is larger than the other two. This was an unexpected result as the shape for all other segments were exponential. More research would need to be done to determine if the results are caused by some interference.\newline
 The network manager also can be modified to change how intelligently the data is shared. The current method only incorporates connecting and sharing the OG data.
 \newpage
 \section{Chapter 8: Future Work}
