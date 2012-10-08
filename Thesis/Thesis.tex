@@ -9,6 +9,7 @@
 \usepackage{setspace}
 \usepackage{fancyvrb}
 \usepackage{float}
+\usepackage{datetime}
 
 
 \setcounter{secnumdepth}{-1}
@@ -19,36 +20,39 @@
 \begin{document}
 \include{title}
 \newpage
-\begin{abstract}
-\addcontentsline{toc}{section}{Abstract}
-My abstract goes here...
-\end{abstract}
+\include{abstract}
 \newpage
 \renewcommand{\abstractname}{Acknowledgements}
 \addcontentsline{toc}{section}{Acknowledgements}
 \begin{abstract}
 I would like to firstly thank the Mavstar team for the equipment and support to help me in my thesis.\newline
 Next I would like to thank my Supervisors Mr Michael Woods and Dr Jose Guivant for their support and ideas to help me in completion of my Thesis.\newline
-I was like to thank Matthew Grosvenor for answering all my networking question to the best of his ability.\newline
+I was like to thank Matthew Grosvenor for putting up with all my networking questions.\newline
 Lastly I would like to thank my friends and family for putting up with me while writing the Thesis.
 \end{abstract}
 \newpage
 \renewcommand\contentsname{Table of Contents}
-\tableofcontents
 \addcontentsline{toc}{section}{Table of Contents}
+\tableofcontents
 \newpage
 \listoffigures
 \addcontentsline{toc}{section}{List of Figures}
 \newpage
+ \pagenumbering{arabic}
+ \setcounter{page}{7}
 \section{Chapter 1: Introduction}
 \subsection{1.1 - Importance of OG Sharing}
 Occupancy Grid's (OG) are an important part of mapping while operating mobile platforms in a ever changing Urban environment. This presents many problems for the platform. One of the major problems with mapping is the need for multiple devices to map simultaneously. This allows for a faster and more accurate map to be created but creates a new set of problems. 
 \newline
 The major problem for multiple platforms is trying to find an efficient way to share the OG data. This is important as all platforms need to have the same map to be able to localise while also avoiding each other and plan paths around obstacles. \newline
 Another major problem found in mapping is the need to setup infrastructure to connect all the platforms. This can be quite costly (either money or time) and isn't always possible. Adhoc networks were designed to eliminate the infrastructure requirements and allow for communication between the mobile platforms without the need of a centralised wireless access point.
-
 \subsection{1.2 - Thesis Objectives}
-The main aim of this thesis is to develop a protocol and framework to intelligent share occupancy grid(OG) data. This will involve implementing a way to share data from programs that will create and manipulate the data to other programs that need the data. One of these other programs will be a network manager which will be in charge of intelligently sharing the data over an adhoc network.
+The main aim of this thesis is
+\begin{itemize}
+\item  to develop a protocol and framework to intelligent share occupancy grid(OG) data between processes on the platform and, 
+\item created a network manager to intelligent share the OG data over an wireless adhoc network.
+\end{itemize}
+This will involve implementing a way to share data from programs that will create and manipulate the data to other programs that need the data and then using the network manager to communicate it over the network. 
 \subsection{1.3 - Thesis Overview}
 Chapter 2 contains a look at different research into OG sharing, sharing of data over adhoc networks and different routing protocols.\newline
 Chapter 3 contains a technical report of the network structure layers and the built in advantages of each of the relevant layers.\newline
@@ -57,7 +61,7 @@ Chapter 5 outlines the experiments that were undertaken to ensure that the frame
 Chapter 6 is the results of the Experiments undertaken in Chapter 5.\newline
 Chapter 7 is the discussion of the results from the experiments.\newline
 Chapter 8 outlines the future work that could be taken to increase efficiency of sharing OG data.\newline
-Chapter 9 contains the conclusion.
+Chapter 9 contains the conclusion of thesis.
 \newpage
 \section{Chapter 2: Literature Review}
 Pfingsthorn and Birk  researched into the efficiency of sharing of the Occupancy Grid (OG) through the three following methods; Sending the occupancy grid periodically, sending the cells when they are alter or sending the sensor data used to create the OG. According to their research, the show that the most efficient method to ensure reliability and to eliminate bandwidth hogging.  Each node uses the combination of data sent to generate its own OG map onboard. This method proved to be almost seven times faster than sending the cells as they are modified and over seventy times faster than sending the sections periodically. However the main disadvantage of this method is that all hosts need to have the same data set to have the same occupancy grid. As nodes join and leave they would only get a portion of the data and thus the OG wouldn't be the same. This also would decrease the advantage of having a MAV go offline to explore an area and then synchronise the generated map upon re-entry to the network.

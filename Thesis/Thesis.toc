@@ -1,7 +1,7 @@
-\contentsline {section}{Abstract}{2}
-\contentsline {section}{Acknowledgements}{3}
-\contentsline {section}{Table of Contents}{5}
-\contentsline {section}{List of Figures}{6}
+\contentsline {section}{Abstract}{ii}
+\contentsline {section}{Acknowledgements}{iii}
+\contentsline {section}{Table of Contents}{iv}
+\contentsline {section}{List of Figures}{vi}
 \contentsline {section}{Chapter 1: Introduction}{7}
 \contentsline {subsection}{1.1 - Importance of OG Sharing}{7}
 \contentsline {subsection}{1.2 - Thesis Objectives}{7}
