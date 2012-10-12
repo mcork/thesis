@@ -29,9 +29,9 @@
 \begin{abstract}
 I would like to firstly thank the Mavstar team for the equipment and support to help me in my thesis.\newline
 Next I would like to thank my supervisors Dr Jose Guivant and Mr Michael Woods for their support and ideas to help me in completion of my Thesis.\newline
-I would also like to thank Matthew Grosvenor for putting up with all my networking questions.\newline
-I would also like to thanks Graham Cork for proof reading my thesis and correcting my grammar.\newline
-Lastly I would like to thank my friends and family for putting up with me while writing this Thesis.
+I would also like to thank Matthew P. Grosvenor for his guidance and expertise in networking.\newline
+I would also like to thanks Graham Cork and Alex Lester for proof reading my thesis and correcting my grammar.\newline
+Lastly I would like to thank my friends and family for their support while writing this Thesis.
 \end{abstract}
 \newpage
 \renewcommand\contentsname{Table of Contents}
@@ -67,26 +67,17 @@ Chapter 7 is the discussion of the results from the experiments.\newline
 Chapter 8 outlines the future work that could be taken to increase efficiency of sharing OG data.\newline
 Chapter 9 contains the conclusion of thesis.
 \newpage
-\section{Chapter 2: Literature Review}
-Pfingsthorn and Birk  researched into the efficiency of sharing of the Occupancy Grid (OG) through the three following methods; Sending the occupancy grid periodically, sending the cells when they are alter or sending the sensor data used to create the OG. According to their research, the show that the most efficient method to ensure reliability and to eliminate bandwidth hogging.  Each node uses the coMBination of data sent to generate its own OG map onboard. This method proved to be almost seven times faster than sending the cells as they are modified and over seventy times faster than sending the sections periodically. However the main disadvantage of this method is that all hosts need to have the same data set to have the same occupancy grid. As nodes join and leave they would only get a portion of the data and thus the OG wouldn\textquoteright t be the same. This also would decrease the advantage of having a MAV go offline to explore an area and then synchronise the generated map upon re-entry to the network.
-
-Pham Van\textquoteright s research investigates the issues of bandwidth-hogging and time-sensitivity that is required when streaming video (high volume data) over an adhoc network by proposing a new proactive architecture. The paper analyses the re-transmission time and explains how the new architecture handles the incoming packets. The procedure for handling the incoming packets includes checking if the round trip time  is less than the threshold of delay and if it isn\textquoteright t the packet gets dropped as a smaller path already exist within the node architecture.The packets that have less delay are selected for retransmission to the next node in the sequence. The loss of packets is handles by an NACK which reduces the ACK messages on the bandwidth.
-
-Peak Signal to Noise Ratio is the measurable error between the sent file and the received file. Through experimental testing the paper proves that the Peak Signal to Noise Ratio (PSNR) is a 2.27dB improvement on the conventional case of 32.67dB. The paper clearly presents an architecture that allows the efficient streaming of video in real time. The strength of this approach is that the data is sent over the quickest path and and thus doesn\textquoteright t flood the network. It also handles the loss of packets effectively. The weakness is that as all nodes know if they are part of the quickest route if the structure changes suddenly their is no redundancy for this data to get through. For use in my application we can\textquoteright t assume that the recipient is available and that each node knows the fastest path.
-
-Putta, Prasad, Ravilla, Nath and Chandra outlined the different algorithms used for routing in Mobile Adhoc Networks (MANETS). The paper cover two different reactive algorithms; Adhoc on Demand Distance Vector (AODV) andDynamic Source Routing (DSR), and the main proactive protocol Optimised Link State Routing (OLSR). These algorithms were compared based on the following criteria; Packet Delivery Ratio, Mean end-to-end delay and Routing load. The paper concluded that for all high bandwidth sources proactive protocols (OLSR, etc) allowed for the greatest reliability while for low bandwidth sources, the reactive protocols allow for greatest reliability. Neither reactive protocol proved to be the superior than the other. The paper shows that if the OG was high bandwidth is would be more efficient and reliable to use the proactive protocol. For the control data the more efficient protocol would be either of the reactive protocols. The tests of these protocols however didn\textquoteright t allow for a drastically changing MANET.
-
-Abdel-Hardy and Ward also tested the difference between the proactive protocol (OLSR) and the reactive protocols AODV and Dynamic Manet On Demand (DYMO). They tests include one video stream with five UDP data connections, one video stream with 50 UDP connections and multiple video streams. It the first test it was showed that the DYMO performed better than the AODV while OLSR performed the worse. The second case showed that the AODV was more efficient than the DYMO while both reactive protocols were more efficient than the OLSR. In both these test background data was introduced to measure the effect. For the last test they had multiple video sources transmitting data. This test was consistent with their early two test which showed that for smaller dynamic MANETS the DYMO was more efficient. This paper showed that in a constantly changing MANET the DYMO protocol was the most efficient method of communication for both single and multiple video streams.
-
+\include{LitReview}
 \newpage
 \section {Chapter 3: Technical Report}
-Network communication can be achieved on five main network layers. These layers are the physical, datalink, network, transport and the application. 
+Network communication can modelled on five main network layers\cite{HayNetwork}. These layers are the physical, datalink, network, transport and the application as shown in Figure~\ref{fig:NetworkStructure}. 
 \begin{figure}[H]
 \centering
-\includegraphics[width=150mm]{Figures/NetworkStructure.jpg}
-\caption{Network Levels Structure}
+\includegraphics[width=100mm]{Figures/Network.jpg}
+\caption{Network Levels Structure \cite{HayNetwork}}
 \label{fig:NetworkStructure}
 \end{figure}
+
 The transmission of data from the application layer is passed down, through the transport, network, datalink and then finally to the physical link. \newline
 The physical link is the only link that has a direct connection to another devices. This base link depends on the method used to connect the devices. This could be via copper, fibre or even wireless. The physical layer sends its data using electrical pulses and waves on the electromagnetic frequency. This is received by other wireless devices for communication. \newline
 The link layer sits above the physical layer. This layer is mostly implemented in the Network Interface Card (NIC). The NIC is the onboard hardware that handles the data passed  from the physical layer. The NIC uses the Message Authentication Code (MAC) protocol which gives a unique MAC address for each NIC device. It is responsible for the:
@@ -95,7 +86,8 @@ The link layer sits above the physical layer. This layer is mostly implemented i
 \item Error Detection and Correction,
 \item Controlling the Duplexity.
 \end{itemize}
-The link layer has a buffer that is of a limited size. This means that the NIC hardware needs to control the flow from the host to avoid causing the loss of data through data overflow. This is done through two main methods; software and hardware controlled flow. The NIC is in charge of the hardware flow control and will ensure that the data is less than the buffer. The second option is done through software. The only part of the link layer that is implemented in software is the driver which allows the program to interact with the Operating System (OS). This driver controls the the software flow and allows the user to change the setting as needed.  \newline
+\cite{KuroseRoss}
+The link layer has a buffer that is of a limited size. This means that the NIC hardware needs to control the flow from the host to avoid causing the loss of data through data overflow. This is done through two main methods; software and hardware controlled flow. The NIC is in charge of the hardware flow control and will ensure that the data is less than the buffer. The second option is done through software. The only part of the link layer that is implemented in software is the driver which allows the program to interact with the Operating System (OS). This driver controls the the software flow and allows the user to change the setting as needed\cite{KuroseRoss}.  \newline
 The error detection and correction is accomplished by using various parity methods. The parity method is given a “parity” value which can check to see if there is corruption in the packet. By using this method if a corruption has happened the program will be able to detect where the corruption is and recover from it. These approaches however will not be able to fix major corruption of the data but will be able to detect it. The NIC other main task is to establish whether the user requires a full duplex channel or only a half duplex. If the user only requires one way transmission they can control the duplexity of the channel through the driver. \newline
 The two types of communication in the link layer are point to point and broadcasting. The point to point communication requires a single transmitter and a single receiver. The broadcasting communication allows for multiple senders and receivers which causes a problem with over saturation of the bandwidth from any user. The three main methods used to ensure that bandwidth is shared are:
 \begin{itemize}
@@ -103,9 +95,10 @@ The two types of communication in the link layer are point to point and broadcas
 \item Random Access
 \item Turns based sending.
 \end{itemize}
+\cite{KuroseRoss}
 The two methods used in channel partitioning are the Frequency Division Method (FDM) and the Time Division Method (TDM). Both these methods require division of resources to allow for multiple senders and receivers. The FDM divides up the bandwidth frequency with the number of concurrent programs assigning each program a certain range of the frequency. This then allows the program to use its frequency as it sees fit. The TDM divides the time into frames and assigns each subsection to a different program. Each program is only allowed to transmit during its allocated time. \newline
 The random access principle starts by transmitting on the full bandwidth. When it detects a collision it will wait a randomly determined time then retransmit all the data. This approach is simple and effective for a small quantity of programs.\newline
-The last category is the turn based sending algorithms. There are many different turn based algorithms that are able to be used however the most common and effective are the  ALOHA and SLOTTED ALOHA.
+The last category is the turn based sending algorithms. There are many different turn based algorithms that are able to be used however the most common and effective are the  ALOHA and SLOTTED ALOHA\cite{KuroseRoss}.
 The SLOTTED ALOHA method divides up the link layer frame into segments based on the bits of each frame divide by the full bandwidth on channel. The programs only transmit on the start of their period. This requires the synchronisation of all programs, to ensure that two programs don\textquoteright t transmit at the same time.
 The ALOHA starts by transmitting on the full bandwidth. When it detects the collision it will determine the wait time based on a random probability. This approach doesn’t require any of the programs to be synchronised and still is a simple and effective method of collision avoidance. 
 The link layer has many effective means to allow communication between devices as well as error checking/detection built in.\newline
@@ -120,12 +113,20 @@ TCP is the most common connection orientated protocol. It is established using a
 \item Go-Back-N (GBN)
 \item Selective Repeat (SR)
 \end{itemize}
+\cite{KuroseRoss}
 The TCP protocol can detect and handle congestion in the bandwidth. It does this by throttling the data allowed to be sent by the application layer. The disadvantage of this layer is the limited buffer. To overcome this problem the transport layer provides feedback to the application layer. This requires the application layer to ensure that the data sent is less than the buffer size of the transport layer. The TCP layer allows for a full duplex connection (i.e both sending and receiving).\newline
 The SW reliability method is the slowest of the three. When it sends a packet, it waits for acknowledgment that the packet has been received.
 The GBN method will send a certain number of packets. It will keep sending the packets in the window until it has received the lowest packet number\textquoteright s acknowledgment. The window will then move to the next unacknowledged packet and sending all packets greater than this one regardless whether they have been sent or acknowledged before.
 The SR method also requires a window that keeps track of the the frames sent. As the sender receives an acknowledgement, it marks that packet as being received however the windows will only move to the last unacknowledged packet. The packets will only be resent when a timeout period for that packet is reached. This is the quickest method as it only resends packets that timeout.\newline
 The last layer is the application layer. This layer is the program that is using the network functions. The are no common protocols for this layer.
-The application layer was chosen for the intelligent sharing of the occupancy grid. This allows for all the safeguards of the lower layers to be used and allows the program to be written in higher level code with more intelligent functionality. 
+The application layer was chosen for the intelligent sharing of the occupancy grid. This allows for all the safeguards of the lower layers to be used and allows the program to be written in higher level code with more intelligent functionality.
+\begin{figure}[H]
+\centering
+\includegraphics[width=150mm]{Figures/RelevantNetworkStructure.jpg}
+\caption{Relevant Network Levels Structure}
+\label{fig:RelevantNetworkStructure}
+\end{figure}
+Figure~\ref{fig:RelevantNetworkStructure} shows the relevant layers for this thesis. 
 \newline
 Most networking is based on two main types of connection; server-client connection and node based connection. The server client method is the first main type of connection. Figure~\ref{fig:serverClient} shows the graphical representation of the approach. This type involves a centralised server that has all the information. The clients then connect to this server and request the information from it. It is usually used when their are few sources of information but many clients. This approach allows for multiple clients to get the same data easily as they know exactly where the source is. This approach fails when a platform needs to be both a client and a source.\newline
 \begin{figure}[H]
@@ -145,19 +146,25 @@ The second main connection is a node to node based communication style as show i
 \section{Chapter 4: The Implementation}
 The implementation was separated into two major logical parts to simplify the system and to allow for each section to be developed and tested individually. The modular nature of this approach allowed for both parts to be designed to increase the efficiency while keeping separate the different functionalities. Another advantage of the modular approach was it allowed the shared memory communication to be used as the major inter-process communication (IPC) for the system.
 \subsection{Shared Memory Protocol}
-The shared memory protocol was designed to allow separate programs to share data sets between them.  One of the main design criteria for the shared memory communication protocol (SHM Protocol) was to allow multiple sources to publish their data while ensuring that corruption of data was minimised or eliminated. The other main design criteria was the SHM Protocol had to allow multiple receivers to read the latest data and minimise the chance of that data being read being corrupted by another set of data being over-written while the original is being read. 
-The SHM Protocol starts by creating a file in the platforms, local RAM, with a particular filename (eg \textquotedblleft OGData\textquotedblright). This \textquotedblleft file\textquotedblright  is then treated like a normal file allowing for the normal read and write functions to be used. For other people to read/write the data posted they also need to know the \textquotedblleft file\textquotedblright  name. These libraries have built in optimisations that make writing to and reading from memory more efficient than developing specific memory read and write functions for the shared memory. The structure of this \textquotedblleft file\textquotedblright  is shown in Figure~\ref{fig:shmStructure}
+The shared memory protocol used in this thesis was specialist design to allow separate programs to share data sets between them.  One of the main design criteria for the shared memory communication protocol (SHM Protocol) was to allow multiple sources to publish their data while ensuring that corruption of data was minimised or eliminated. The other main design criteria was the SHM Protocol had to allow multiple receivers to read the latest data and minimise the chance of that data being read being corrupted by another set of data being over-written while the original is being read. 
+The SHM Protocol starts by creating a file in the platform's local RAM with a particular filename (eg \textquotedblleft OGData\textquotedblright). This \textquotedblleft file\textquotedblright  is then treated like a normal file allowing for the normal read and write functions to be used. For other people to read/write the data posted they also need to know the \textquotedblleft file\textquotedblright  name. These libraries have built in optimisations that make writing to and reading from memory more efficient than developing specific memory read and write functions for the shared memory. The structure of this \textquotedblleft file\textquotedblright  is shown in Figure~\ref{fig:shmStructure}
 \begin{figure}[H]
 \centering
 \includegraphics[width=150mm]{Figures/sharedMemory.jpg}
 \caption{Shared Memory Structure}
 \label{fig:shmStructure}
 \end{figure}
-The file starts with the checksum. This checksum is used when the a program initially connects to the shared memory file(shm file). The program initially checks to see if the checksum is set to \textquotedblleft 230912\textquotedblright . If this checksum is set that means the file has been initialised by another program. If this value isn\textquoteright t set then the program is responsible to initialise the shared memory and set the initial variables.\newline
+The file starts with the checksum. This checksum is used when the a program initially connects to the shared memory file(shm file). The program initially checks to see if the checksum is set to the magic number \textquotedblleft 230912\textquotedblright . If this checksum is set that means the file has been initialised by another program. If this value isn\textquoteright t set then the program is responsible to initialise the shared memory and set the initial variables.\newline
 The next part of the file is the read and write counter. Both counters are updated when write is called.\newline
 The last and biggest part of the structure is the \textquotedblleft DATA\textquotedblright  segment. This holds the actual data being communicated between the different programs.\newline
 One of the major problems with multiple sources reading from, or writing to, the same data set is the increased chance of corruption. One of the main solutions to this problem is using mutexes or synchronisation locks. Mutexes and synchronisation locks are mutually exclusive locks which prevents multiple people accessing the same file at the same time. This approach is unable to be used for our purpose as we want multiple people to read the data at the same time, while only one person writes at the same time. These approaches also require hardware support to be implemented properly. Due to the above reasons the shared memory protocol needed a different approach to minimise corruption of data. \newline
-The solution chosen for the shared memory protocol is using a circular buffer to store the data. The buffer implements an array which can hold ten different instances of the data structure being shared. The right hand side of Figure~\ref{fig:shmStructure} shows the structure of the data segment of the shared memory.
+\begin{figure}[H]
+\centering
+\includegraphics[width=150mm]{Figures/circularBuffer.jpg}
+\caption{Circular Buffer for Device Drivers\cite{circularBuffer}}
+\label{fig:circularBuffer}
+\end{figure}
+The solution chosen for the shared memory protocol is using a circular buffer to store the data. This is similar to the circular buffer used in device drivers\cite{circularBuffer} which is shown in Figure~\ref{fig:circularBuffer} however it has been adjusted to allow for multiple writers instead of only a single writer. The buffer implements an array which can hold ten different instances of the data structure being shared. The right hand side of Figure~\ref{fig:shmStructure} shows the structure of the data segment of the shared memory.
 The counters included in the shared memory library (mentioned before) keep track of the next available write element of the array and the current read element. When data is written, the library updates the write counter to the next element of the array while the read counter is updated to the element that has just been written. When read is called, the program requesting data is given a pointer the the last element that was written. When data is written and the read pointer is updated, the old pointer is valid for the next nine writes and only upon the tenth write will the data be overwritten and the chance of corruption would happen. With the buffer size of ten the chance of the data being overwritten and corrupted it greatly reduced. The bigger the buffer is the smaller the chance of corruption, however the greater the buffer the more RAM is taken up in the platforms RAM. Each time read is called the update pointer will be given.\newline
 The shared memory protocol is an efficient way to communicate between programs on the platform. It allows multiple sources to write to the common data set without corruption, while also allowing multiple sources to read the latest data. This protocol allows the OG to be shared to the network manager and then sent over the network to another platform\textquoteright s OG program. The protocol also ensures other programs such as path planning programs can also get the OG for its use. The shared memory protocol is also used as the major IPC communication on the platform for all programs. This is done by changing the name of the file.
 \newpage
@@ -169,21 +176,22 @@ The network manager was written on the application layer to allow for communicat
 	\begin{code}
 	    start listening on port (6000)
 	    connect to host
-	    loop forever
- 	    broadcast "alive" message
-	    check for received data
-	    if newRecvData {
-	   	sync with local OG(using shared memory)
-	    }
-	    check to see if new data to send
-	    if newData {
-	  	send New Data
+	    loop forever{
+ 		    broadcast "alive" message
+		    check for received data
+		    if newRecvData {
+		   	sync with local OG(using shared memory)
+		    }
+		    check to see if new data to send
+		    if newData {
+		  	send New Data
+		    }
 	    }
 	\end{code}
 	\caption {Pseudo Code: Network Node Implementation}
 \end {figure}
 The protocol was designed to have a initial listening port that all nodes try to connect to each other on. This allows all nodes to only ever need to try one port number to establish a connection. When a connection is detected, the listening port passes the connection data to randomly assigned port number. This other port accepts the connection and establishes the two way pipeline to the other node. This approach make the protocol more dynamic and can mean greater number of connections for each node.
-After the connection is established the program then checks to see if new data has been sent over the adhoc network. The TCP connection allows the user to specify a few different options to determine if there is data. These methods are blocking, polling and non-blocking. \newline
+After the connection is established the program then checks to see if new data has been sent over the adhoc network. The TCP connection allows the user to specify a few different options to determine if there is data. These methods are blocking, polling\cite{pollMan} and non-blocking\cite{recvMan}. \newline
 Blocking is a method which only returns from the system call when data has been received. This is very useful if data is constantly expected and you can either guarantee the data will be there or if you only want to continue when the data is there. The main disadvantages of this approach is that it will lock up the program and stop it from completing any other tasks until it receives data. \newline
 Polling is a way to check the socket connection to see if data has been stored in the buffer since it was last read. This can be a good method when you are expecting data intermittently and constantly opening and closing the connection. However the major disadvantage is that the system call will block if the connection is still open but no data is being sent over it. It is mainly used when the connection is constantly established and disconnected. \newline
 For our approach the only solution that would work is using the non-blocking approach. This approach checks the connection and either returns the data being sent or returns an error code. This major disadvantage with this approach is that the node needs to do all the error checking and error-handling itself. The node program checks the return value of the \textquotedblleft receive\textquotedblright  system call and handles it appropriately. If data is found, it is then written to the shared memory for the OG implementation to deal with. If the connection has been disconnected from the remote end, then the program would disconnect the socket and wait for another connection. If the connection is still established but no data has been sent through then the nodes skips the writing to shared memory step.
@@ -191,7 +199,7 @@ For our approach the only solution that would work is using the non-blocking app
 \newpage
 \section{Chapter 5: Experiments}
 \subsection{Experiment 1 - Shared Memory}
-The shared memory implementation is a way to minimise the chance of corruption of the shared data using a circular buffer. The corruption is caused by one program over writing the data currently being read. This means the program reading gets partially old data and partially new data which is the corruption. The shared memory experiments are separated into two stages for testing. \newline
+The shared memory implementation is a way to minimise the chance of corruption of the shared data using a circular buffer. The corruption is caused by one program over writing the data currently being read. This means the program reading gets a combination of old data and new data which is the corruption. The shared memory experiments are separated into two stages for testing. \newline
 \subsubsection{Experiment 1.1 - Benchmarking Shared Memory}
 There is currently no benchmark for the size of data shared through the shared memory to determine at what size the corruption is reliable. The first experiment was designed to test structures of different sizes with no multiple data slots for the circular buffer (i.e circular buffer size was one). The purpose of the experiment was to show the size at which corruption first occurred and to develop a benchmark in which data corruption reliably occurred. Using the benchmark allows for future comparisons to be made.\newline
 The experiment consist of two programs accessing the shared memory. The first program was responsible for writing an array of single integers into the shared memory. 
@@ -243,8 +251,9 @@ The experiment started off using an array, the size determined in experiment 1.1
 \newpage
 \subsubsection{Experiment 1.3 - Circular Buffer Size with Multiple Writers}
 The third experiment for the shared memory was to confirm the “safe” recommended value with multiple writers, under heavy computer load and to ensure that the circular buffer values were being updated correctly.\newline
-The safe recommended value, for the circular buffer, was chosen to be above the value obtained in experiment 1.2. For this experiment the value 5 was chosen. This value should proved to be corruption free as it is higher than the obtained value. This value was then tested at high load on the computer which had multiple programs running at the same time. This allowed the experiment to show if increase CPU load and multiple programs writing to the shared memory resulted in corruption at the safe value.\newline
-A status function was written to allow the read program to read the current values of the read, write counters and the checksum and allowed it to be checked on screen for accuracy.
+The safe recommended value, for the circular buffer, was chosen to be above the value obtained in experiment 1.2. For this experiment a circular buffer of size 5 was chosen. This value should proved to be corruption free as it is higher than the obtained value. This value was then tested at high load on the computer which had multiple programs running at the same time. This allowed the experiment to show if increase CPU load and multiple programs writing to the shared memory resulted in corruption at the safe value.\newline
+A status function was written to allow the read program to read the current values of the read, write counters and the checksum and allowed it to be checked on screen for accuracy.\newline
+The corruption checking function iterated through the array size and checked that all values we the same.
 \newline
 \underline {\bf Method}
 \begin{enumerate}
@@ -256,9 +265,9 @@ A status function was written to allow the read program to read the current valu
 \end {enumerate}
 \newpage
 \subsection{Experiment 2 - Network Node Timing}
-Experiment 2 was designed to test the end to end timing of the entire approach. This includes the network manager and the shared memory implementations. Timings were be able to compared with other network sharing protocols such as scp. All platforms had their clocks synced before the testing using the built in linux NTP servers.\newline
-Different sizes OG were also shared over the network, to check to see if there was an optimal size of data being sent. The OG data was time-stamped by the initial program then written to the shared memory to be shared memory. This change was propagated through the network to the next node. The next node checked the time stamp and display the timing it took for the packet to reach it.\newline
-Each data set consisted of twenty changes and the timings were averaged for that data set to minimise errors created by interference in the bandwidth. The experiment was repeated with different sizes of OG to determine the ideal size of sending data and allowing comparisons to be made against the same sizes being sent through another sharing programs.\newline.
+Experiment 2 was designed to test the end to end timing of the entire approach. This includes the network manager and the shared memory implementations. Timings were be able to compared with other network sharing protocols such as SCP. All platforms had their clocks synced before the testing using the built in linux NTP servers.\newline
+Different sizes OG's were also shared over the network, to check to see if there was an optimal size of data being sent. The OG data was time-stamped by the initial program then written to the shared memory to be shared memory. This change was propagated through the network to the next node. The next node checked the time stamp and display the timing it took for the packet to reach it.\newline
+Each data set consisted of twenty changes and the timings were averaged for that data set to minimise errors created by interference in the bandwidth. The experiment was repeated with different sizes of OG to determine the ideal size of sending data and allowing comparisons to be made against the same sizes being sent through another sharing program.\newline.
 \newpage
 \section{Chapter 6: Results}
 \subsection{Experiment 1 - Shared Memory}
@@ -319,16 +328,17 @@ Figure~\ref{fig:resultTerminalOutput} shows the output from the status function 
 \caption{Results of Experiment 2 - Full Graph}
 \label{fig:resultExperiment2Full}
 \end{figure}
-Figure~\ref{fig:resultExperiment2Full} shows that the increase in size had a exponential increase in timing. This was consistent with all sizes between 5KB and 10MB, however above 10MB it was shown that the timing increase proved to be linear with the size increase. Between 0 and 5KB however an interesting graph was produced.\newline
-The final timing of 50MB was removed to show greater resolution for the other timings. The timing for 10MB was around 107 seconds..
+Figure~\ref{fig:resultExperiment2Full} shows that the increase in size had a exponential increase in timing. This was consistent with all sizes between 5KB and 10MB.\newline
+Sizes greater than 10MB, showed that the timing increase tended towards a linear trend. \newline
+The final timing of 50MB was removed to show greater resolution for the other timings. The timing for 10MB was around 107 seconds.
 \begin{figure}[H]
 \centering
 \includegraphics[width=150mm]{Figures/Experiment2Lower.jpg}
 \caption{Results of Experiment 2 - Lower Values}
 \label{fig:resultExperiment2Low}
 \end{figure}
-Figure~\ref{fig:resultExperiment2Low} is the section of Figure~\ref{fig:resultExperiment2Full} between 0 and 5KB. Figure~\ref{fig:resultExperiment2Low} shows that graph is a stepping function.
-Comparison of SCP was unable to be done due to SCP functions lack of accurate timing.
+Figure~\ref{fig:resultExperiment2Low} is the section of Figure~\ref{fig:resultExperiment2Full} between 0 and 5KB and has produced an interesting graph. Figure~\ref{fig:resultExperiment2Low} shows that graph is a stepping function.
+Comparison of SCP was unable to be done due to SCP significant overhead in creating the secure authentication overhead.
 \newpage
 \section{Chapter 7: Discussion}
 The implementation showed the result that both the shared memory and the network manager performed the task required of them, however there were some interesting points in both which will be discussed below.
@@ -362,6 +372,11 @@ The results for the shared memory implementation showed that using a circular bu
 \newline
  The network manager proved to be an intelligent way to communicate data across the wireless adhoc network. Although it wasn\textquoteright t the most efficient program, with further research and development it could be made both more efficient and incorporate different intelligent protocols.
  \newline
- Both of these implementations when coMBined, provide a framework protocol for sharing OG data between platforms over a wireless adhoc network. The protocol is able to be modified to incorporate different methods for intelligent sharing data. 
+ Both of these implementations when combined, provide a framework protocol for sharing OG data between platforms over a wireless adhoc network. The protocol is able to be modified to incorporate different methods for intelligent sharing data. 
 \newpage
+\begin{flushleft}
+\addcontentsline{toc}{section}{References}
+\bibliography{biblo}
+\bibliographystyle{plain}
+\end{flushleft}
 \end{document}  
