@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  12 OCT 2012 16:01
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  12 OCT 2012 18:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -360,7 +360,7 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 
 
 (./Nomenclature.tex
-Underfull \hbox (badness 10000) in paragraph at lines 4--14
+Underfull \hbox (badness 10000) in paragraph at lines 4--17
 
  []
 
@@ -385,50 +385,48 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 
 
 (./LitReview.tex
+Missing character: There is no Õ in font cmr12!
+Missing character: There is no Õ in font cmr12!
 Missing character: There is no Ò in font cmr12!
 Missing character: There is no Ó in font cmr12!
-Missing character: There is no Ô in font cmr12!
 Missing character: There is no Õ in font cmr12!
-Missing character: There is no Ô in font cmr12!
 Missing character: There is no Õ in font cmr12!
- [11
-
-]
-Overfull \hbox (1.54893pt too wide) in paragraph at lines 15--17
-[]\OT1/cmr/m/n/12 <<BANDWIDTH>> Sumathi and Thana-mani dis-cuss an ap-proach fo
-r col-li-sion avoid-
+Missing character: There is no Õ in font cmr12!
+Missing character: There is no Õ in font cmr12!
+)
+Overfull \hbox (24.12923pt too wide) in paragraph at lines 2--70
+\OT1/cmr/m/n/12 Computer sys-tems are ma-chines that con-stantly have in-ter-pr
+o-cess-ing communication[[]].
  []
 
 
-Overfull \hbox (15.27794pt too wide) in paragraph at lines 20--22
-[]\OT1/cmr/m/n/12 Pham Van's re-search in-ves-ti-gates the is-sues of bandwidth
--hogging and time-sensitivity
+Overfull \hbox (3.84564pt too wide) in paragraph at lines 2--70
+\OT1/cmr/m/n/12 width es-ti-ma-tion for in-tel-li-gent send-ing pro-to-cols. Th
+ey proved the Im-plicit pipeline
  []
 
-[12] [13]
+[11
 
-LaTeX Warning: Citation `PfingsthornBirk2008' on page 14 undefined on input lin
-e 32.
-
-) [14] <Figures/Network.jpg, id=54, 185.19188pt x 219.82124pt>
+] [12] [13] [14] [15]
+<Figures/Network.jpg, id=57, 185.19188pt x 219.82124pt>
 File: Figures/Network.jpg Graphic file (type jpg)
 
 <use Figures/Network.jpg>
 Package pdftex.def Info: Figures/Network.jpg used on input line 76.
 (pdftex.def)             Requested size: 284.52756pt x 337.7375pt.
- [15
+ [16
 
  <./Figures/Network.jpg>]
 Missing character: There is no Ò in font cmr12!
 Missing character: There is no Ó in font cmr12!
- [16]
+ [17]
 Missing character: There is no Õ in font cmr12!
 Missing character: There is no Õ in font cmr12!
- [17] [18]
+ [18] [19]
 Missing character: There is no Õ in font cmr12!
 Missing character: There is no Õ in font cmr12!
 
-<Figures/RelevantNetworkStructure.jpg, id=67, 391.4625pt x 305.64188pt>
+<Figures/RelevantNetworkStructure.jpg, id=71, 391.4625pt x 305.64188pt>
 File: Figures/RelevantNetworkStructure.jpg Graphic file (type jpg)
 
 <use Figures/RelevantNetworkStructure.jpg>
@@ -440,7 +438,7 @@ Overfull \hbox (8.53766pt too wide) in paragraph at lines 125--126
  [][] 
  []
 
-[19] [20] <Figures/serverClient.jpg, id=75, 426.59375pt x 249.93375pt>
+[20] [21] <Figures/serverClient.jpg, id=78, 426.59375pt x 249.93375pt>
 File: Figures/serverClient.jpg Graphic file (type jpg)
 
 <use Figures/serverClient.jpg>
@@ -456,8 +454,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 129--137
 
  []
 
-[21 <./Figures/RelevantNetworkStructure.jpg>]
-<Figures/nodeConnection.jpg, id=79, 653.44125pt x 373.395pt>
+[22 <./Figures/RelevantNetworkStructure.jpg>]
+<Figures/nodeConnection.jpg, id=82, 653.44125pt x 373.395pt>
 File: Figures/nodeConnection.jpg Graphic file (type jpg)
 
 <use Figures/nodeConnection.jpg>
@@ -468,10 +466,10 @@ Overfull \hbox (8.53766pt too wide) in paragraph at lines 140--141
  [][] 
  []
 
-[22 <./Figures/serverClient.jpg>]
+[23 <./Figures/serverClient.jpg>]
 Missing character: There is no Õ in font cmr12!
- [23 <./Figures/nodeConnection.jpg>]
-<Figures/sharedMemory.jpg, id=86, 654.94687pt x 456.20438pt>
+ [24 <./Figures/nodeConnection.jpg>]
+<Figures/sharedMemory.jpg, id=89, 654.94687pt x 456.20438pt>
 File: Figures/sharedMemory.jpg Graphic file (type jpg)
 
 <use Figures/sharedMemory.jpg>
@@ -482,7 +480,7 @@ Overfull \hbox (8.53766pt too wide) in paragraph at lines 153--154
  [][] 
  []
 
-[24] <Figures/circularBuffer.jpg, id=90, 347.2975pt x 189.70876pt>
+[25] <Figures/circularBuffer.jpg, id=94, 347.2975pt x 189.70876pt>
 File: Figures/circularBuffer.jpg Graphic file (type jpg)
 
 <use Figures/circularBuffer.jpg>
@@ -498,24 +496,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 157--166
 
  []
 
-[25 <./Figures/sharedMemory.jpg>] [26 <./Figures/circularBuffer.jpg>] [27]
-[28]
+[26 <./Figures/sharedMemory.jpg>] [27 <./Figures/circularBuffer.jpg>] [28]
+[29]
 Underfull \hbox (badness 10000) in paragraph at lines 172--192
 
  []
 
-[29] [30] [31]
+[30] [31] [32]
 Underfull \hbox (badness 10000) in paragraph at lines 202--203
 
  []
 
-[32]
+[33]
 Missing character: There is no Õ in font cmr12!
- [33] [34] [35]
+ [34] [35] [36]
 Missing character: There is no Ò in font cmr12!
 Missing character: There is no Ó in font cmr12!
- [36] [37]
-<Figures/BufferSize1.jpg, id=134, 642.4pt x 374.39874pt>
+ [37] [38]
+<Figures/BufferSize1.jpg, id=137, 642.4pt x 374.39874pt>
 File: Figures/BufferSize1.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize1.jpg>
@@ -531,7 +529,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 281--283
 
  []
 
-<Figures/BufferSize2.jpg, id=135, 641.39626pt x 376.40625pt>
+<Figures/BufferSize2.jpg, id=138, 641.39626pt x 376.40625pt>
 File: Figures/BufferSize2.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize2.jpg>
@@ -542,8 +540,8 @@ Overfull \hbox (8.53766pt too wide) in paragraph at lines 286--287
  [][] 
  []
 
-[38 <./Figures/BufferSize1.jpg>]
-<Figures/BufferSize3.jpg, id=139, 639.38875pt x 376.40625pt>
+[39 <./Figures/BufferSize1.jpg>]
+<Figures/BufferSize3.jpg, id=142, 639.38875pt x 376.40625pt>
 File: Figures/BufferSize3.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize3.jpg>
@@ -559,8 +557,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 290--297
 
  []
 
-[39 <./Figures/BufferSize2.jpg>]
-<Figures/BufferSize4.jpg, id=143, 636.3775pt x 373.395pt>
+[40 <./Figures/BufferSize2.jpg>]
+<Figures/BufferSize4.jpg, id=146, 636.3775pt x 373.395pt>
 File: Figures/BufferSize4.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize4.jpg>
@@ -576,8 +574,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 298--305
 
  []
 
-[40 <./Figures/BufferSize3.jpg>] [41 <./Figures/BufferSize4.jpg>]
-<Figures/BufferSize5.jpg, id=150, 635.37375pt x 367.3725pt>
+[41 <./Figures/BufferSize3.jpg>] [42 <./Figures/BufferSize4.jpg>]
+<Figures/BufferSize5.jpg, id=153, 635.37375pt x 367.3725pt>
 File: Figures/BufferSize5.jpg Graphic file (type jpg)
 
 <use Figures/BufferSize5.jpg>
@@ -588,7 +586,7 @@ Overfull \hbox (8.53766pt too wide) in paragraph at lines 311--312
  [][] 
  []
 
-<Figures/experiment1-3.jpg, id=151, 465.74pt x 393.47pt>
+<Figures/experiment1-3.jpg, id=154, 465.74pt x 393.47pt>
 File: Figures/experiment1-3.jpg Graphic file (type jpg)
 
 <use Figures/experiment1-3.jpg>
@@ -599,8 +597,8 @@ Overfull \hbox (8.53766pt too wide) in paragraph at lines 318--319
  [][] 
  []
 
-[42 <./Figures/BufferSize5.jpg>] [43 <./Figures/experiment1-3.jpg>]
-<Figures/Experiment2Upper.jpg, id=159, 355.3275pt x 234.8775pt>
+[43 <./Figures/BufferSize5.jpg>] [44 <./Figures/experiment1-3.jpg>]
+<Figures/Experiment2Upper.jpg, id=162, 355.3275pt x 234.8775pt>
 File: Figures/Experiment2Upper.jpg Graphic file (type jpg)
 
 <use Figures/Experiment2Upper.jpg>
@@ -611,7 +609,7 @@ Overfull \hbox (8.53766pt too wide) in paragraph at lines 327--328
  [][] 
  []
 
-<Figures/Experiment2Lower.jpg, id=160, 356.0803pt x 336.50719pt>
+<Figures/Experiment2Lower.jpg, id=163, 356.0803pt x 336.50719pt>
 File: Figures/Experiment2Lower.jpg Graphic file (type jpg)
 
 <use Figures/Experiment2Lower.jpg>
@@ -622,69 +620,40 @@ Overfull \hbox (8.53766pt too wide) in paragraph at lines 336--337
  [][] 
  []
 
-[44 <./Figures/Experiment2Upper.jpg>] [45 <./Figures/Experiment2Lower.jpg>]
+[45 <./Figures/Experiment2Upper.jpg>] [46 <./Figures/Experiment2Lower.jpg>]
 Missing character: There is no Õ in font cmr12!
 Missing character: There is no Õ in font cmr12!
 Missing character: There is no Õ in font cmr12!
 Missing character: There is no Õ in font cmr12!
 
-[46] [47] [48] [49]
+[47] [48] [49] [50]
 Underfull \hbox (badness 10000) in paragraph at lines 363--369
 
  []
 
-[50] [51]
-
-LaTeX Warning: Citation `PuttaEtAl' on page 52 undefined on input line 378.
-
-
-LaTeX Warning: Citation `JangChoiLee' on page 52 undefined on input line 379.
-
-
-LaTeX Warning: Citation `Van' on page 52 undefined on input line 380.
-
-
-LaTeX Warning: Citation `Graham' on page 52 undefined on input line 381.
-
-
-LaTeX Warning: Citation `HadyWard' on page 52 undefined on input line 382.
-
-
-LaTeX Warning: Citation `SumanthiThanamani' on page 52 undefined on input line 
-383.
-
-
-LaTeX Warning: Citation `LeeRaKim' on page 52 undefined on input line 384.
-
-(./Thesis.bbl [52]) [53] (./Thesis.aux (./title.aux) (./originality.aux)
-(./abstract.aux) (./Nomenclature.aux) (./LitReview.aux))
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[51] [52] (./Thesis.bbl [53]) [54] (./Thesis.aux (./title.aux)
+(./originality.aux) (./abstract.aux) (./Nomenclature.aux) (./LitReview.aux)) ) 
 Here is how much of TeX's memory you used:
  3862 strings out of 493488
- 59033 string characters out of 3141326
- 145719 words of memory out of 3000000
+ 59035 string characters out of 3141326
+ 151747 words of memory out of 3000000
  7030 multiletter control sequences out of 15000+200000
  11580 words of font info for 43 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  42i,6n,24p,1135b,274s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
-usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
-r/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/
-local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/l
-ocal/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/lo
-cal/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Thesis.pdf (53 pages, 942286 bytes).
+<
+/usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
+usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></u
+sr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
+/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/l
+ocal/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/loc
+al/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
+l/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local
+/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on Thesis.pdf (54 pages, 943309 bytes).
 PDF statistics:
- 222 PDF objects out of 1000 (max. 8388607)
- 143 compressed objects within 2 object streams
+ 225 PDF objects out of 1000 (max. 8388607)
+ 145 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  71 words of extra memory for PDF output out of 10000 (max. 10000000)
 
